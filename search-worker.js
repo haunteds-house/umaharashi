@@ -1,5 +1,5 @@
 import {prepareDecks,scorePairWithDeck} from './deck.js';
-import {Engine,scorePair,comparePairs,baseId} from './core.js';
+import {Engine,scorePair,compareParentMatches,baseId} from './core.js';
 self.onmessage=({data})=>{
  try {
  const {affinity,factors,races,links,plan,veterans}=data,engine=new Engine(affinity,factors,races,links);
@@ -15,7 +15,7 @@ self.onmessage=({data})=>{
   if(left[i].id===right[j].id||(!locked[0]&&!locked[1]&&j<=i))continue;
   let score=scorePair(engine,plan,left[i],right[j]);
   if(score&&decks)score=scorePairWithDeck(engine,plan,left[i],right[j],score,decks);
-  if(score){matched++;top.push(score);top.sort(comparePairs);if(top.length>40)top.pop();}
+  if(score){matched++;top.push(score);top.sort((a,b)=>compareParentMatches(a,b,plan.matchSort,plan.matchDirection));if(top.length>40)top.pop();}
   if(checked%2000===0)self.postMessage({type:'progress',checked,total});
  }
  self.postMessage({type:'done',top,checked,matched});

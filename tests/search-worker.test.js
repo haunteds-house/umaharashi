@@ -22,3 +22,21 @@ test('deck worker returns scenario-scored six-card results and rejects insuffici
  self.onmessage({data});const r=messages.at(-1);assert.equal(r.type,'done');assert.equal(r.top.length,1);assert.equal(r.top[0].deck.length,6);assert.equal(r.top[0].training.scenario,'URA');assert.ok(Number.isFinite(r.top[0].combinedScore));
  data.ownedSupports=[];self.onmessage({data});assert.equal(messages.at(-1).type,'error');assert.match(messages.at(-1).message,/at least five/);
 });
+
+test('match sorting changes the full worker shortlist, not just the existing top 40',()=>{
+ const plan=emptyPlan();plan.wanted=[210090];plan.searchMode='sparkgen';plan.bought[210090]={tier:'white',inspirationOnly:true};
+ const veterans=Array.from({length:12},(_,i)=>({...emptyNode(),id:String(i),cardId:100101+i*100,sparks:i<2?[]:[{id:210150,stars:3}],parents:[]}));
+ const data={affinity:load('affinity'),factors:load('factors'),races:load('races'),links:load('skill-links'),plan,veterans};
+ self.onmessage({data});const normal=messages.at(-1);assert.equal(normal.type,'done');assert.equal(normal.top.length,40);assert.ok(!normal.top.some(r=>r.a==='0'&&r.b==='1'));
+ plan.matchSort='average';plan.matchDirection='asc';self.onmessage({data});const sorted=messages.at(-1);assert.equal(sorted.type,'done');assert.deepEqual([sorted.top[0].a,sorted.top[0].b],['0','1']);
+ assert.ok(sorted.top.every((r,i,rows)=>!i||rows[i-1].average<=r.average));
+});
+
+test('match comparison handles missing values, infinity, individual sparks and deck value',async()=>{
+ const {compareParentMatches:cmp}=await import('../core.js');
+ const a={a:'1',b:'2',min:0,sum:0,total:5,average:.2,expectedRuns:Infinity,chances:[.8],training:{score:400,missing:[]}};
+ const b={...a,a:'3',average:.5,expectedRuns:2,chances:[.3],training:{score:200,missing:[]}};
+ assert.ok(cmp(a,b,'average','desc')>0);assert.ok(cmp(a,b,'expectedRuns','asc')>0);
+ assert.ok(cmp(a,b,'spark:0','desc')<0);assert.ok(cmp(a,b,'training','desc')<0);
+ for(const direction of ['asc','desc']){assert.ok(cmp({...a,average:null},b,'average',direction)>0);assert.ok(cmp({...a,baseline:true},b,'affinity',direction)>0);}
+});

@@ -175,3 +175,16 @@ export function scorePair(engine,plan,a,b) {
  return {a:a.id,b:b.id,total:ev.total,baseline:!plan.nodes[0].cardId,min:chances.length?Math.min(...chances):0,sum:chances.reduce((s,c)=>s+c,0),chances,...summarizeChances(chances,plan.wanted,engine.links.factorAliases)};
 }
 export const comparePairs=(a,b)=>(a.combinedScore!=null&&b.combinedScore!=null?b.combinedScore-a.combinedScore:0)||b.min-a.min||b.sum-a.sum||b.total-a.total||String(a.a).localeCompare(String(b.a))||String(a.b).localeCompare(String(b.b));
+// Missing estimates sort last; ties retain the normal recommendation order.
+export function compareParentMatches(a,b,sort='recommended',direction='desc'){
+ if(sort==='recommended')return comparePairs(a,b);
+ const value=r=>{
+  if(sort.startsWith('spark:'))return r.chances?.[Number(sort.slice(6))];
+  if(sort==='affinity')return r.baseline?null:r.total;
+  if(sort==='training')return r.training?.missing?.length?null:r.training?.score;
+  return ({average:r.average,allChance:r.allChance,expectedRuns:r.expectedRuns,min:r.min})[sort];
+ };
+ const av=value(a),bv=value(b),missing=v=>v==null||Number.isNaN(v);
+ if(missing(av)||missing(bv))return missing(av)&&missing(bv)?comparePairs(a,b):missing(av)?1:-1;
+ return (av===bv?0:(av<bv?-1:1)*(direction==='asc'?1:-1))||comparePairs(a,b);
+}
