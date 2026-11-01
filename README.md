@@ -144,8 +144,7 @@ breaks the choice (chance summaries remain unavailable).
 
 **Maximum Pal / Group cards** defaults to one and can be set from zero to six.
 This is a planning preference, not a game restriction. Each Pal/Group card reserves
-five shared outing turns in every card's scoring pass, following the upstream
-outing allowance. This is an estimate, not an exact career schedule.
+its MDB outing count in every card's scoring pass (including Group member outings). This is an estimate, not an exact career schedule.
 
 Deck search is bounded: up to 64 partial owned decks per Pal/Group count, then
 up to 32 distinct skill/type profiles per count with a borrowed card, evaluated
@@ -162,3 +161,24 @@ aptitudes, characters, races and learned skills. First use copies Basic rules;
 afterwards each mode retains its own draft. **Copy Basic rules** explicitly
 replaces the Advanced draft. **Edit as UQL** serializes the active builder,
 including grouping and negation. Presets preserve the whole grouped expression.
+
+## Parent goals and scenario requirements
+
+Open **Parent goal presets & course context** under Find my parents for four
+starter skill loops and four CM21 Capricorn packages. Applying one adds skills,
+sets a scenario and an editable skill-first weighting, and saves a previous-plan
+snapshot. Existing target, lineage, filters and sparks are preserved.
+
+With support cards enabled, **Deck templates & requirements** supplies scenario
+frameworks, editable type minimums and a minimum race bonus. Counts include the
+borrow. Group-member conflicts and scenario bans use an extracted Global MDB
+snapshot. Shared outing allowance now uses each card's full outing count.
+
+URA/Unity spirit hints are conditional sources. Trackblazer excludes character
+career-event skills; a separate toggle excludes all card/character event sources
+for conservative planning. Race bonus assumes leveling owned cards to their LB
+cap. Course context is informational and does not change inheritance probabilities.
+
+See [research review](docs/research-review.md) for sources, uncertainties and
+future integrations. Refresh the compact MDB/course exports with
+`python scripts/planning_data.py`; no personal API key or MDB upload is needed.

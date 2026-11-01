@@ -77,6 +77,16 @@ No private game files, account exports, credentials, or external site applicatio
   effects. The model's reference numerical test is retained in our test suite.
 
 - Umaplan adapts the calculator to deduct the full deck's outing allowance in
-  every marginal evaluation (five turns per model type-6 Pal/Group card).
+  every marginal evaluation (card-specific MDB totals for Pal/Group cards).
   Bonding days are clamped to the available training days. The default one-card
   Pal/Group limit is an adjustable planning preference, not a game rule.
+
+## November planning additions
+
+- Public uma.moe Global resource manifest, MDB and course export, retrieved
+  2026-11-01. Versions are recorded in `support-rules.js` and `data/courses.json`.
+  `scripts/planning_data.py` verifies checksums and extracts factual fields.
+- Guide-derived starting frameworks, source conflicts and implementation limits:
+  [research review](docs/research-review.md). Preset weighting is our heuristic.
+- Full Group-card member exclusions, scenario restrictions and outing totals
+  replace the earlier primary-character-only checks and fixed five-turn allowance.

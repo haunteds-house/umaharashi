@@ -1,1 +1,1 @@
-export const scenarioNames={URA:'URA Finals',Aoharu:'Aoharu Cup',MANT:'Make a New Track',GL:'Grand Live',GM:'Grand Masters'};
+export const scenarioNames={URA:'URA Finals',Aoharu:'Unity Cup (Aoharu)',MANT:'Trackblazer (MANT)',GL:'Grand Concert (Grand Live)',GM:'Grand Masters'};
