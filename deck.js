@@ -1,3 +1,4 @@
+import {applyFarmingScore,priority} from './farming.js';
 import {supportCharacters,supportsConflict,supportAllowed,deckRequirements,canCompleteTypes} from './planning.js';
 import {createTrainingModel,combinedScore,isOutingCard,supportRaceBonus} from './training.js';
 import {baseId,pairNodes,baselineEvaluation,creationChance,summarizeChances,comparePairs} from './core.js';
@@ -22,8 +23,8 @@ export function prepareDecks({plan,supports,ownedSupports,skills,links,character
  if(new Set(owned.map(c=>c.charaId)).size<5)throw Error('Deck mode needs at least five owned support characters, excluding the target. Import support_card_data.json or turn deck mode off.');
  const targetSources=plan.nodes[0].cardId?sources('character',plan.nodes[0].cardId):wanted.map(()=>null);
  const seed={cards:[],tiers:targetSources.map(s=>s?.tier??0),quality:0};
- const value=d=>d.tiers.reduce((n,t,i)=>n+(plan.bought?.[wanted[i]]?.inspirationOnly?0:t?10+t:0),0);
- const beamValue=d=>(1-weight)*value(d)/Math.max(1,wanted.length*13)+weight*d.quality/(d.quality+3000);
+ const value=d=>d.tiers.reduce((n,t,i)=>n+(plan.farmingObjective==='legacy'||!plan.farmingObjective||plan.farmingObjective==='package'?1:priority(plan,wanted[i]))*(plan.bought?.[wanted[i]]?.inspirationOnly?0:t?10+t:0),0);
+ const beamValue=d=>(1-weight)*value(d)/Math.max(1,wanted.reduce((n,id)=>n+(plan.farmingObjective==='legacy'||!plan.farmingObjective||plan.farmingObjective==='package'?1:priority(plan,id)),0)*13)+weight*d.quality/(d.quality+3000);
  const order=(a,b)=>beamValue(b)-beamValue(a)||b.quality-a.quality||a.cards.map(c=>c.id).join(',').localeCompare(b.cards.map(c=>c.id).join(','));
  const extend=(d,c)=>({cards:[...d.cards,c],tiers:d.tiers.map((t,i)=>Math.max(t,c.sources[i]?.tier??0)),quality:d.quality+training.standalone(c)});
  let beam=[seed];
@@ -58,7 +59,7 @@ export function scorePairWithDeck(engine,plan,a,b,base,decks){
    acquisition.push(available?{...source,kind:source.kind,conditional:true}:{kind:'inspiration',chance:inherit});
    return creationChance(o?.copies??0,available?tierName(deck.tiers[i]):'white')*(available?1:inherit);
   });
-  const score={...base,chances,min:chances.length?Math.min(...chances):0,sum:chances.reduce((s,p)=>s+p,0),...summarizeChances(chances,plan.wanted,engine.links.factorAliases),deck:deck.cards.map(({sources,...c})=>c),acquisition,deckQuality:deck.quality,training:deck.training,combinedScore:combinedScore(chances,deck.training.score,Math.min(1,Math.max(0,Number(plan.trainingWeight??25)/100)))};
+  const score=applyFarmingScore({...base,chances,min:chances.length?Math.min(...chances):0,sum:chances.reduce((s,p)=>s+p,0),...summarizeChances(chances,plan.wanted,engine.links.factorAliases),deck:deck.cards.map(({sources,...c})=>c),acquisition,deckQuality:deck.quality,training:deck.training,combinedScore:combinedScore(chances,deck.training.score,Math.min(1,Math.max(0,Number(plan.trainingWeight??25)/100)))},plan,engine.links.factorAliases);
   if(!best||comparePairs(score,best)<0||comparePairs(score,best)===0&&score.deckQuality>best.deckQuality)best=score;
  }
  return best;

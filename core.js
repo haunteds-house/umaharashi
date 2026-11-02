@@ -1,3 +1,4 @@
+import {applyFarmingScore} from './farming.js';
 // Original implementation. Models and data provenance are documented in SOURCES.md.
 export const aptitudes = [
  ['Turf','proper_ground_turf','aptitudeTurf'],['Dirt','proper_ground_dirt','aptitudeDirt'],
@@ -50,7 +51,7 @@ export function normalizeImport(input,filename,catalog) {
  return {kind,data,filename:String(filename),importedAt:new Date().toISOString()};
 }
 export function emptyNode() { return {cardId:0,sparks:[],wins:[],winsKnown:true,sourceId:null}; }
-export function emptyPlan() { return {name:'Untitled lineage',nodes:Array.from({length:15},emptyNode),wanted:[],bought:{},searchMode:'inherit',includeSupports:false,borrowSSR:true,maxOutingCards:1,scenario:'auto',autoScenarios:['URA','Aoharu','MANT','GL'],trainingFocus:'balanced',trainingWeight:25,deck:[],rolls:2,parentRaceBonus:false,pins:[false,false]}; }
+export function emptyPlan() { return {name:'Untitled lineage',farmingObjective:'legacy',sparkWeights:{},nodes:Array.from({length:15},emptyNode),wanted:[],bought:{},searchMode:'inherit',includeSupports:false,borrowSSR:true,maxOutingCards:1,scenario:'auto',autoScenarios:['URA','Aoharu','MANT','GL'],trainingFocus:'balanced',trainingWeight:25,deck:[],rolls:2,parentRaceBonus:false,pins:[false,false]}; }
 export function placeVeteran(plan,index,v) {
  const copy=structuredClone(plan); const put=(i,n)=>{if(i<15)copy.nodes[i]={cardId:n.cardId,sparks:structuredClone(n.sparks),wins:[...n.wins],winsKnown:n.winsKnown,sourceId:n.id??null};};
  put(index,v);
@@ -172,7 +173,7 @@ export function scorePair(engine,plan,a,b) {
  if(!ev.complete)return null;
  const odds=engine.odds(nodes,ev,plan.rolls);
  const chances=plan.wanted.map(id=>desiredChance(engine,plan,id,odds));
- return {a:a.id,b:b.id,total:ev.total,baseline:!plan.nodes[0].cardId,min:chances.length?Math.min(...chances):0,sum:chances.reduce((s,c)=>s+c,0),chances,...summarizeChances(chances,plan.wanted,engine.links.factorAliases)};
+ return applyFarmingScore({a:a.id,b:b.id,total:ev.total,baseline:!plan.nodes[0].cardId,min:chances.length?Math.min(...chances):0,sum:chances.reduce((s,c)=>s+c,0),chances,...summarizeChances(chances,plan.wanted,engine.links.factorAliases)},plan,engine.links.factorAliases);
 }
 export const comparePairs=(a,b)=>(a.combinedScore!=null&&b.combinedScore!=null?b.combinedScore-a.combinedScore:0)||b.min-a.min||b.sum-a.sum||b.total-a.total||String(a.a).localeCompare(String(b.a))||String(a.b).localeCompare(String(b.b));
 // Missing estimates sort last; ties retain the normal recommendation order.

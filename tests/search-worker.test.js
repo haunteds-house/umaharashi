@@ -40,3 +40,10 @@ test('match comparison handles missing values, infinity, individual sparks and d
  assert.ok(cmp(a,b,'spark:0','desc')<0);assert.ok(cmp(a,b,'training','desc')<0);
  for(const direction of ['asc','desc']){assert.ok(cmp({...a,average:null},b,'average',direction)>0);assert.ok(cmp({...a,baseline:true},b,'affinity',direction)>0);}
 });
+
+test('deck worker uses the selected farming objective in its final score',()=>{
+ const plan=emptyPlan();Object.assign(plan,{includeSupports:true,scenario:'URA',farmingObjective:'package',trainingWeight:10});plan.wanted=[Number(load('factors').find(f=>f.text==='Groundwork').id)];
+ const veterans=[100101,100201].map((cardId,i)=>({...emptyNode(),id:String(i+1),cardId,parents:[]}));
+ self.onmessage({data:{affinity:load('affinity'),factors:load('factors'),races:load('races'),links:load('skill-links'),skills:load('skills'),characters:load('characters'),supports:load('supports'),ownedSupports:[30028,20031,20033,20012,20002,30052].map(cardId=>({cardId,limitBreak:4,level:50})),plan,veterans}});
+ const r=messages.at(-1);assert.equal(r.type,'done');const best=r.top[0];assert.equal(best.farming.objective,'package');assert.ok(Math.abs(best.combinedScore-100*(.9*best.allChance+.1*best.training.score/(best.training.score+3000)))<1e-9);assert.equal(best.deck.filter(c=>c.borrowed).length,1);
+});
