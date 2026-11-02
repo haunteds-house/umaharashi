@@ -351,11 +351,11 @@ export function processCards(cards, weights, selectedCards) {
     }
 
     score += GainsToScore(statGains, weights)
-    score += energyGain * weights.stats[ENERGY]
+    info.energy_score = energyGain * weights.stats[ENERGY] * (weights.energyUtilization ?? 1)
+    score += info.energy_score
 
-    if (weights.scenarioLink.indexOf(card.char_name) > -1) {
-      score += weights.scenarioBonus
-    }
+    info.scenario_bonus = (weights.scenarioLinkIds ? weights.scenarioLinkIds.includes(card.id) : weights.scenarioLink.indexOf(card.char_name) > -1) ? weights.scenarioBonus : 0
+    score += info.scenario_bonus
 
     processedCards.push({
       id: card.id,

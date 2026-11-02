@@ -22,3 +22,8 @@ per-candidate five-turn deduction remains. Training days cannot be negative,
 and bonding days are clamped to the available training window. The adapter uses card-specific MDB outing totals for Pal/Group cards; these
 remain an allowance rather than a prediction of the actual training schedule.
 The deck search defaults to at most one Pal/Group card (user-adjustable).
+
+The calculator also accepts optional `scenarioLinkIds` and `energyUtilization`
+weights. The adapter uses IDs for Global links and can discount energy value
+based on Wit-card count. Neither option alters the unadapted upstream default.
+See ../../docs/deck-scoring.md for the heuristic and its limitations.

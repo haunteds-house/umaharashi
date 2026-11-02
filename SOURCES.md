@@ -90,3 +90,10 @@ No private game files, account exports, credentials, or external site applicatio
   [research review](docs/research-review.md). Preset weighting is our heuristic.
 - Full Group-card member exclusions, scenario restrictions and outing totals
   replace the earlier primary-character-only checks and fixed five-turn allowance.
+
+## Scenario-aware deck corrections (2 November 2026)
+
+See [deck-scoring.md](docs/deck-scoring.md) for scenario-link ID mapping,
+Pal-identity retention, the optional Wit-dependent recovery heuristic, and
+explicit limits on event/lesson simulation. Upstream event vectors remain
+unchanged; linked-scenario index allowances are not factual stat rewards.

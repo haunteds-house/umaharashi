@@ -1,3 +1,4 @@
+import {scenarioSupportIds,recoveryUtilization} from './scenario-supports.js';
 import {supportOutings,supportAllowed} from './planning.js';
 import cards from './vendor/tierlist/cards.js';
 import {processCards} from './vendor/tierlist/tierlist-calc.js';
@@ -11,7 +12,7 @@ export function trainingWeights(target,scenario,focus='balanced'){
  const config=getScenario('gl',scenario),chosen=config[focus]??config.speed;
  // Keep the valuation of stats comparable across scenarios; scenario mechanics vary.
  const common=getScenario('gl','URA')[focus]??{...config.speed,type:0,prioritize:false,stats:[1,1,1,1,1,1,1],cap:500};
- return {...chosen,...common,...config.general,umaBonus:[...['Speed','Stamina','Power','Guts','Wisdom'].map(k=>1+(Number(target?.['talent'+k])||0)/100),1]};
+ return {...chosen,...common,...config.general,scenarioLinkIds:scenarioSupportIds[scenario],umaBonus:[...['Speed','Stamina','Power','Guts','Wisdom'].map(k=>1+(Number(target?.['talent'+k])||0)/100),1]};
 }
 export function createTrainingModel(plan,characters){
  const target=characters.find(c=>c.cardId===plan.nodes[0].cardId);
@@ -28,7 +29,7 @@ export function createTrainingModel(plan,characters){
   const legal=scenarios.filter(s=>deck.every(c=>supportAllowed(c,s)));
   if(!legal.length)return {score:0,scenario:null,comparisons:[],missing:[],unavailable:true};
   const outingDays=deck.reduce((n,c)=>n+supportOutings(c),0);
-  const comparisons=legal.map(s=>{const perCard=models.map((c,i)=>({id:c.id,score:processCards([c],{...weights.get(s),deckOutingDays:outingDays},models.filter((_,j)=>j!==i))[0]?.score??0}));return {scenario:s,score:perCard.reduce((n,c)=>n+c.score,0),perCard};}).sort((a,b)=>b.score-a.score);
+  const comparisons=legal.map(s=>{const energyUtilization=plan.recoveryAdjustment===false?1:recoveryUtilization(models);const perCard=models.map((c,i)=>{const r=processCards([c],{...weights.get(s),deckOutingDays:outingDays,energyUtilization},models.filter((_,j)=>j!==i))[0];return {id:c.id,score:r?.score??0,energyScore:r?.info.energy_score??0,scenarioBonus:r?.info.scenario_bonus??0,scenarioLinked:(scenarioSupportIds[s]??[]).includes(c.id)};});return {scenario:s,score:perCard.reduce((n,c)=>n+c.score,0),perCard,energyUtilization};}).sort((a,b)=>b.score-a.score);
   const result={raceBonus:models.reduce((n,c)=>n+c.race_bonus,0),outingDays,...comparisons[0],comparisons,missing:[],growth:weights.get(comparisons[0].scenario).umaBonus.slice(0,5).map(x=>Math.round((x-1)*100)),neutralGrowth:!target};cache.set(key,result);return result;
  }
  return {standalone,evaluate,scenarios};

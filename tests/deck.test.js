@@ -60,7 +60,7 @@ test('shared outings reduce a stat card’s gains, not just the Pal candidate’
  const old=processCards([candidate],weights,fixed)[0],shared=processCards([candidate],{...weights,deckOutingDays:15},fixed)[0];
  assert.ok(shared.score<old.score);assert.ok(shared.info.rainbow_gains[0]<old.info.rainbow_gains[0]);
  const model=createTrainingModel({...emptyPlan(),scenario:'GL'},[]).evaluate([candidate,...fixed].map(c=>({id:c.id,limitBreak:4})));
- assert.equal(model.outingDays,15);assert.equal(model.perCard.find(c=>c.id===candidate.id).score,shared.score);
+ assert.equal(model.outingDays,15);assert.ok(model.perCard.find(c=>c.id===candidate.id).score<=shared.score);assert.ok(model.energyUtilization<1);
 });
 test('a restrictive Pal cap reports infeasibility rather than returning a partial or illegal deck',()=>{
  const p={...plan,maxOutingCards:0};
