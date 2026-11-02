@@ -75,3 +75,6 @@ button:disabled{opacity:1;color:var(--muted);background:var(--tint)}.pick-row:di
 .priority-control{display:flex;align-items:center;gap:4px}.priority-control input{width:65px;min-width:0;padding:5px}.priority-control select{width:88px;padding:5px}
 .wanted{flex-wrap:wrap}.wanted>span{flex:1;min-width:110px}.comparison-table td,.comparison-table th{white-space:normal;min-width:110px}.result-actions{display:flex;gap:5px;flex-wrap:wrap}.stale-results{border-left:4px solid #d99d36}
 .wanted .info-bubble{border:1px solid currentColor;border-radius:50%;padding:0;width:21px;height:21px}
+/* Labels normally use grid; keep the help icon beside their caption. */
+label:not(.check):has(> .info-bubble){display:block}
+label:not(.check):has(> .info-bubble)>select,label:not(.check):has(> .info-bubble)>input{display:block;width:100%;margin-top:6px}
