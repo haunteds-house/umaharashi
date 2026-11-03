@@ -17,11 +17,11 @@ any_spark(blue_sparks, 3, 3, 2, 3)</pre><p class="tiny">Advanced fields include 
  const at=(root,path)=>path===''?root:path.split('.').reduce((g,i)=>g.children[Number(i)],root);
  function handle(e){const el=e.target.closest('button,input,textarea,select'),panel=el?.closest('[data-search-panel]');if(!panel)return false;const key=panel.dataset.searchPanel,s=getState().searches[key];
   if(e.type==='click'){
-   if(el.dataset.searchMode){s.mode=el.dataset.searchMode;if(s.mode==='advanced'&&!s.advanced)s.advanced=cleanGroup({join:s.join,children:s.rules});changed();return true;}
-   if(el.dataset.groupAdd!==undefined||el.dataset.groupNest!==undefined){const path=el.dataset.groupAdd??el.dataset.groupNest,g=at(s.advanced,path);g.children.push(el.dataset.groupNest!==undefined?{join:'or',not:false,children:[]}:{scope:'',field:'Speed',op:'>=',value:'3',copies:false});changed();return true;}
-   if(el.dataset.advancedRemove!==undefined){const path=el.dataset.advancedRemove.split('.'),index=Number(path.pop());at(s.advanced,path.join('.')).children.splice(index,1);changed();return true;}
-   if(el.dataset.advancedQuick){const quick={spark:['','Speed','>=','6'],stat:['','Stat Speed','>=','1000'],aptitude:['','Aptitude Turf','>=','A'],exclude:['Main','Character','!=','Special Week'],race:['Main','Wins','>=','5'],skill:['','Learned skills','has','Groundwork']}[el.dataset.advancedQuick];const [scope,field,op,value]=quick;s.advanced.children.push({scope,field,op,value,copies:false});changed();return true;}
-   if(el.dataset.removeRule!==undefined){s.rules.splice(Number(el.dataset.removeRule),1);changed();return true;}
+   if(el.dataset.searchMode){s.mode=el.dataset.searchMode;if(s.mode==='advanced'&&!s.advanced)s.advanced=cleanGroup({join:s.join,children:s.rules});changed(true,key);return true;}
+   if(el.dataset.groupAdd!==undefined||el.dataset.groupNest!==undefined){const path=el.dataset.groupAdd??el.dataset.groupNest,g=at(s.advanced,path);g.children.push(el.dataset.groupNest!==undefined?{join:'or',not:false,children:[]}:{scope:'',field:'Speed',op:'>=',value:'3',copies:false});changed(true,key);return true;}
+   if(el.dataset.advancedRemove!==undefined){const path=el.dataset.advancedRemove.split('.'),index=Number(path.pop());at(s.advanced,path.join('.')).children.splice(index,1);changed(true,key);return true;}
+   if(el.dataset.advancedQuick){const quick={spark:['','Speed','>=','6'],stat:['','Stat Speed','>=','1000'],aptitude:['','Aptitude Turf','>=','A'],exclude:['Main','Character','!=','Special Week'],race:['Main','Wins','>=','5'],skill:['','Learned skills','has','Groundwork']}[el.dataset.advancedQuick];const [scope,field,op,value]=quick;s.advanced.children.push({scope,field,op,value,copies:false});changed(true,key);return true;}
+   if(el.dataset.removeRule!==undefined){s.rules.splice(Number(el.dataset.removeRule),1);changed(true,key);return true;}
    const action=el.dataset.searchAction;if(!action)return false;
    if(action==='reset')getState().searches[key]=emptySearch();
    if(action==='add')s.rules.push({scope:'Main',field:'Speed',op:'>=',value:'3',copies:false});
@@ -29,16 +29,16 @@ any_spark(blue_sparks, 3, 3, 2, 3)</pre><p class="tiny">Advanced fields include 
    if(action==='convert'){s.uql=visualQuery(s);s.mode='uql';}
    if(action==='save'){const name=panel.querySelector('[data-preset-name]').value.trim();if(!name){notify('Enter a preset name.');return true;}const test=service.run([],s);if(test.error){notify(test.error);return true;}if(getState().searchPresets.length>=100){notify('Delete a preset before adding another (maximum 100).');return true;}getState().searchPresets.push({id:Date.now().toString(36)+'-'+Math.random().toString(36).slice(2),name,search:cleanSearch(s)});notify('Search preset saved.');}
    if(action==='load'||action==='delete'){const id=panel.querySelector('[data-preset-select]').value,p=getState().searchPresets.find(p=>p.id===id);if(!p){notify('Choose a preset first.');return true;}if(action==='load')getState().searches[key]=cleanSearch(p.search);else getState().searchPresets=getState().searchPresets.filter(p=>p.id!==id);}
-   changed();return true;
+   changed(true,key);return true;
   }
   if(e.type==='input'||e.type==='change'){
    const typing=el.tagName==='TEXTAREA'||el.tagName==='INPUT'&&el.type!=='checkbox';
    if(e.type==='change'&&typing||e.type==='input'&&!typing)return false;
-   if(el.dataset.groupJoin!==undefined){at(s.advanced,el.dataset.groupJoin).join=el.value;changed();return true;}
-   if(el.dataset.groupNot!==undefined){at(s.advanced,el.dataset.groupNot).not=el.checked;changed();return true;}
-   if(el.dataset.advancedRule){at(s.advanced,el.closest('[data-advanced-path]').dataset.advancedPath)[el.dataset.advancedRule]=el.type==='checkbox'?el.checked:el.value;changed(!typing);return true;}
-   if(el.dataset.searchProp){s[el.dataset.searchProp]=el.dataset.searchProp==='target'?Number(el.value):el.value;changed(!typing);return true;}
-   if(el.dataset.ruleProp){s.rules[Number(el.closest('[data-rule]').dataset.rule)][el.dataset.ruleProp]=el.type==='checkbox'?el.checked:el.value;changed(!typing);return true;}
+   if(el.dataset.groupJoin!==undefined){at(s.advanced,el.dataset.groupJoin).join=el.value;changed(true,key);return true;}
+   if(el.dataset.groupNot!==undefined){at(s.advanced,el.dataset.groupNot).not=el.checked;changed(true,key);return true;}
+   if(el.dataset.advancedRule){at(s.advanced,el.closest('[data-advanced-path]').dataset.advancedPath)[el.dataset.advancedRule]=el.type==='checkbox'?el.checked:el.value;changed(!typing,key);return true;}
+   if(el.dataset.searchProp){s[el.dataset.searchProp]=el.dataset.searchProp==='target'?Number(el.value):el.value;changed(!typing,key);return true;}
+   if(el.dataset.ruleProp){s.rules[Number(el.closest('[data-rule]').dataset.rule)][el.dataset.ruleProp]=el.type==='checkbox'?el.checked:el.value;changed(!typing,key);return true;}
   }
   return false;
  }

@@ -66,3 +66,13 @@ test('a restrictive Pal cap reports infeasibility rather than returning a partia
  const p={...plan,maxOutingCards:0};
  assert.throws(()=>prepareDecks({...options(p),ownedSupports:[30052,30036,20021,30028,20031].map(cardId=>({cardId,limitBreak:4,level:50}))}),/Pal\/Group limit/);
 });
+
+test('explicit learned-tier cap is honored in deck mode without inventing gold access',()=>{
+ const p={...emptyPlan(),includeSupports:true,wanted:[200450],trainingWeight:0,bought:{200450:{tier:'white',manualTier:true}}};
+ const deck={cards:[],tiers:[3],targetSources:[{tier:3,kind:'characters',skillName:'Center Stage'}],quality:0,training:{score:0}};
+ const base=scorePair(engine,p,a,b);
+ const white=scorePairWithDeck(engine,p,a,b,base,[deck]);assert.equal(white.chances[0],.2);assert.equal(white.acquisition[0].learnedTier,'white');
+ p.bought[200450].tier='gold';const gold=scorePairWithDeck(engine,p,a,b,base,[deck]);assert.equal(gold.chances[0],.4);
+ const unavailable={...deck,tiers:[1],targetSources:[{tier:1,kind:'characters',skillName:'Prudent Positioning'}]};assert.equal(scorePairWithDeck(engine,p,a,b,base,[unavailable]).chances[0],.2);
+ p.bought[200450].inspirationOnly=true;assert.equal(scorePairWithDeck(engine,p,a,b,base,[deck]).chances[0],0);
+});

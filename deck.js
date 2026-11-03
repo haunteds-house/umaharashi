@@ -57,7 +57,8 @@ export function scorePairWithDeck(engine,plan,a,b,base,decks){
    const only=plan.bought?.[id]?.inspirationOnly,available=!only&&deck.tiers[i]>0;
    let source=null;if(available){source=deck.targetSources[i]?.tier===deck.tiers[i]?{...deck.targetSources[i],entityId:plan.nodes[0].cardId}:null;for(const c of deck.cards)if(!source&&c.sources[i]?.tier===deck.tiers[i])source={...c.sources[i],entityId:c.id,borrowed:c.borrowed};}
    acquisition.push(available?{...source,kind:source.kind,conditional:true}:{kind:'inspiration',chance:inherit});
-   return creationChance(o?.copies??0,available?tierName(deck.tiers[i]):'white')*(available?1:inherit);
+   const requested=plan.bought?.[id],cap=requested?.manualTier?({white:1,upgraded:2,gold:3}[requested.tier]??3):3;const learnedTier=available?tierName(Math.min(deck.tiers[i],cap)):'white';acquisition[acquisition.length-1].learnedTier=learnedTier;
+   return creationChance(o?.copies??0,learnedTier)*(available?1:inherit);
   });
   const score=applyFarmingScore({...base,chances,min:chances.length?Math.min(...chances):0,sum:chances.reduce((s,p)=>s+p,0),...summarizeChances(chances,plan.wanted,engine.links.factorAliases),deck:deck.cards.map(({sources,...c})=>c),acquisition,deckQuality:deck.quality,training:deck.training,combinedScore:combinedScore(chances,deck.training.score,Math.min(1,Math.max(0,Number(plan.trainingWeight??25)/100)))},plan,engine.links.factorAliases);
   if(!best||comparePairs(score,best)<0||comparePairs(score,best)===0&&score.deckQuality>best.deckQuality)best=score;

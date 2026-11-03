@@ -1,7 +1,7 @@
 import {mkdir,rm,copyFile,cp} from 'node:fs/promises';
 const root=new URL('../',import.meta.url),dist=new URL('dist/',root);
 await rm(dist,{recursive:true,force:true});await mkdir(dist,{recursive:true});
-for(const name of ['farming.js','help.js','index.html','styles.css','app.js','reference.js','core.js','storage.js','search-worker.js','veteran-search.js','search-ui.js','deck.js','training.js','training-options.js','planning.js','support-rules.js','picker.js','scenario-supports.js'])await copyFile(new URL(name,root),new URL(name,dist));
+for(const name of ['ui-state.js','farming.js','help.js','index.html','styles.css','app.js','reference.js','core.js','storage.js','search-worker.js','veteran-search.js','search-ui.js','deck.js','training.js','training-options.js','planning.js','support-rules.js','picker.js','scenario-supports.js'])await copyFile(new URL(name,root),new URL(name,dist));
 await cp(new URL('data/',root),new URL('data/',dist),{recursive:true});
 console.log('Built dist/ — static GitHub Pages app.');
 

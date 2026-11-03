@@ -78,3 +78,23 @@ button:disabled{opacity:1;color:var(--muted);background:var(--tint)}.pick-row:di
 /* Labels normally use grid; keep the help icon beside their caption. */
 label:not(.check):has(> .info-bubble){display:block}
 label:not(.check):has(> .info-bubble)>select,label:not(.check):has(> .info-bubble)>input{display:block;width:100%;margin-top:6px}
+/* Interaction cleanup. Existing palette retained pending design choice. */
+.info-tooltip{inset:auto;margin:0;box-sizing:border-box;overflow-wrap:anywhere}
+.info-tooltip:popover-open{display:block}
+.field-with-help{position:relative;min-width:0}.field-with-help>label{display:grid;margin-bottom:0!important}.field-with-help>.info-bubble{position:absolute;right:0;top:-4px;margin:0}.field-with-help>label>select,.field-with-help>label>input{margin-top:3px;width:100%}
+.field-with-help:has(>.check){display:flex;align-items:center;gap:8px}.field-with-help>.check{display:flex;flex:1}.field-with-help:has(>.check)>.info-bubble{position:static}
+.help-links{display:inline-flex;gap:8px;margin-left:8px}
+button:disabled{cursor:not-allowed;opacity:.55}select:disabled,input:disabled{opacity:.65;cursor:not-allowed}
+button[aria-pressed=true]{background:var(--tint);border-color:var(--green);color:var(--green)}
+#results .table-wrap{max-width:100%;border:1px solid var(--line);border-radius:8px;scrollbar-width:thin}
+#results th{position:sticky;top:0;background:var(--cream);z-index:1}#results td{font-variant-numeric:tabular-nums}
+#results td.name{min-width:225px;max-width:340px}#results .name details{font-weight:400}
+#results [aria-busy=true]{opacity:.8}.result-actions{min-width:132px}
+#search-status:not(:empty){padding:10px 0;line-height:1.6;font-size:12px;color:var(--ink)}
+dialog{overscroll-behavior:contain;scrollbar-gutter:stable}dialog .modal-top{position:sticky;top:-26px;background:var(--cream);z-index:3;padding:14px 0;gap:12px;border-bottom:1px solid var(--line)}dialog .modal-top h2{flex:1;margin:0}dialog .modal-top button{flex:none}
+#toast{z-index:10001;pointer-events:none;max-height:35vh;overflow:auto}
+.wanted .priority-control{flex-wrap:nowrap}.priority-control .info-bubble{flex:none}.side-panel .priority-control select{width:90px}
+@media(max-width:720px){.toolbar>label,.toolbar>.field-with-help{flex:1 1 150px}.priority-control{max-width:100%}#results td.name{min-width:185px}.result-actions{min-width:110px}dialog .modal-top{top:-26px}.match-deck{min-width:240px;grid-template-columns:repeat(2,minmax(0,1fr))}header{height:auto;min-height:60px;gap:8px;flex-wrap:wrap;padding:10px 16px}}
+#results td.name{position:sticky;left:0;background:var(--cream);z-index:1;border-right:1px solid var(--line)}
+#results th:first-child{position:sticky;left:0;z-index:2}#results .result-actions{margin:10px 0 4px;max-width:275px;gap:6px}
+@media(max-width:720px){#results td.name{min-width:150px;max-width:185px}#results .result-actions{max-width:165px}#results td.name:has(details[open]){position:static}}
