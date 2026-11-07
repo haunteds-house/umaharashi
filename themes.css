@@ -1,0 +1,40 @@
+/* Independent style and appearance controls: system follows the OS. */
+header{height:auto;min-height:76px;gap:14px;padding-top:12px;padding-bottom:12px}header>div{gap:12px;flex-wrap:wrap;justify-content:flex-end}.style-control select{max-width:215px}.theme-control{white-space:nowrap}
+:root[data-style="reef"]{--page:#f0eee5;--surface:#fffef9;--cream:#f8f7f0;--ink:#183e43;--muted:#476367;--green:#006b70;--line:#b9cec9;--tint:#e0f0e9;--hover:#d4e9e4;--lime:#c9e9de;--accent-border:#338b88;--action:#ac4434;--action-text:#ffffff;--sidebar:#123f46;--sidebar-active:#225961;--motif:#73b7b2;--border:var(--line);--accent:var(--green);}
+:root[data-style="reef"][data-theme="dark"]{--page:#10272c;--surface:#19383e;--cream:#153138;--ink:#eef8f3;--muted:#b0ccca;--green:#81d9cd;--line:#40646a;--tint:#244950;--hover:#30565d;--lime:#c9e9de;--accent-border:#66b8ad;--action:#ef9c85;--action-text:#291b16;--sidebar:#0d2227;--sidebar-active:#244950;--motif:#457980;--border:var(--line);--accent:var(--green);}
+@media(prefers-color-scheme:dark){:root[data-style="reef"]:not([data-theme="light"]):not([data-theme="dark"]){--page:#10272c;--surface:#19383e;--cream:#153138;--ink:#eef8f3;--muted:#b0ccca;--green:#81d9cd;--line:#40646a;--tint:#244950;--hover:#30565d;--lime:#c9e9de;--accent-border:#66b8ad;--action:#ef9c85;--action-text:#291b16;--sidebar:#0d2227;--sidebar-active:#244950;--motif:#457980;--border:var(--line);--accent:var(--green);}}
+:root[data-style="gusuku"]{--page:#e9e7e1;--surface:#fffdf6;--cream:#f3f1ea;--ink:#273449;--muted:#555f71;--green:#374d7d;--line:#c1c4cb;--tint:#e3e7f0;--hover:#d9deea;--lime:#e3c79d;--accent-border:#7e8ba5;--action:#a74732;--action-text:#ffffff;--sidebar:#202d49;--sidebar-active:#364664;--motif:#697a9c;--border:var(--line);--accent:var(--green);}
+:root[data-style="gusuku"][data-theme="dark"]{--page:#171d2b;--surface:#252e41;--cream:#20283a;--ink:#f4eee1;--muted:#c0c6d2;--green:#b3c8f3;--line:#4d5870;--tint:#303d56;--hover:#3b4863;--lime:#e3c79d;--accent-border:#8c9dbe;--action:#e9a084;--action-text:#2c1b14;--sidebar:#141c30;--sidebar-active:#303d56;--motif:#586888;--border:var(--line);--accent:var(--green);}
+@media(prefers-color-scheme:dark){:root[data-style="gusuku"]:not([data-theme="light"]):not([data-theme="dark"]){--page:#171d2b;--surface:#252e41;--cream:#20283a;--ink:#f4eee1;--muted:#c0c6d2;--green:#b3c8f3;--line:#4d5870;--tint:#303d56;--hover:#3b4863;--lime:#e3c79d;--accent-border:#8c9dbe;--action:#e9a084;--action-text:#2c1b14;--sidebar:#141c30;--sidebar-active:#303d56;--motif:#586888;--border:var(--line);--accent:var(--green);}}
+:root[data-style="yanbaru"]{--page:#f0ecdf;--surface:#fffdf4;--cream:#f8f5e9;--ink:#243e31;--muted:#516555;--green:#286045;--line:#c5cfb7;--tint:#e6edda;--hover:#dce7cf;--lime:#e5d293;--accent-border:#729561;--action:#9a442e;--action-text:#ffffff;--sidebar:#1f3b30;--sidebar-active:#355442;--motif:#749671;--border:var(--line);--accent:var(--green);}
+:root[data-style="yanbaru"][data-theme="dark"]{--page:#17271f;--surface:#263c30;--cream:#203429;--ink:#f2f2df;--muted:#becdb7;--green:#afd193;--line:#4e6651;--tint:#324b35;--hover:#3d5940;--lime:#e5d293;--accent-border:#92b479;--action:#edb37c;--action-text:#2a2014;--sidebar:#13251d;--sidebar-active:#324b35;--motif:#5b7c55;--border:var(--line);--accent:var(--green);}
+@media(prefers-color-scheme:dark){:root[data-style="yanbaru"]:not([data-theme="light"]):not([data-theme="dark"]){--page:#17271f;--surface:#263c30;--cream:#203429;--ink:#f2f2df;--muted:#becdb7;--green:#afd193;--line:#4e6651;--tint:#324b35;--hover:#3d5940;--lime:#e5d293;--accent-border:#92b479;--action:#edb37c;--action-text:#2a2014;--sidebar:#13251d;--sidebar-active:#324b35;--motif:#5b7c55;--border:var(--line);--accent:var(--green);}}
+
+:root:is([data-style="reef"],[data-style="gusuku"],[data-style="yanbaru"]) .shell>aside{background-color:var(--sidebar);border-right:1px solid var(--motif)}
+:root:is([data-style="reef"],[data-style="gusuku"],[data-style="yanbaru"]) :is(.brand small,.sidebar-foot,.sidebar-foot a,nav a){color:#d9e5e1}
+:root:is([data-style="reef"],[data-style="gusuku"],[data-style="yanbaru"]) nav a.active{background:var(--sidebar-active);border-color:var(--motif);color:var(--lime)}
+:root:is([data-style="reef"],[data-style="gusuku"],[data-style="yanbaru"]) .primary{background:var(--action);border-color:var(--action);color:var(--action-text)}
+:root:is([data-style="reef"],[data-style="gusuku"],[data-style="yanbaru"]) .primary:disabled{background:var(--tint);border-color:var(--line);color:var(--muted)}
+:root:is([data-style="reef"],[data-style="gusuku"],[data-style="yanbaru"]) :is(.panel,.metric,.skill-card){border-color:var(--line)}
+:root:is([data-style="reef"],[data-style="gusuku"],[data-style="yanbaru"]) .tree-row:before{border-color:var(--accent-border)}
+:root:is([data-style="reef"],[data-style="gusuku"],[data-style="yanbaru"]) :is(.bar,.progress){background:var(--tint)}
+:root:is([data-style="reef"],[data-style="gusuku"],[data-style="yanbaru"]) .bar span{background:var(--green)}
+:root:is([data-style="reef"],[data-style="gusuku"],[data-style="yanbaru"]) .title-row{border-bottom:3px solid var(--accent-border);padding-bottom:16px}
+/* Small original geometric motifs keep ornament out of the working tables. */
+:root[data-style="reef"] .shell>aside{background-image:radial-gradient(ellipse at 50% 150%,transparent 67%,#73b7b233 68%,#73b7b233 71%,transparent 72%);background-size:48px 24px;background-repeat:repeat-x;background-position:left bottom}
+:root[data-style="reef"] .panel{border-radius:16px}
+:root[data-style="reef"] header{border-top:4px solid var(--green)}
+:root[data-style="gusuku"] .shell>aside{background-image:repeating-linear-gradient(0deg,transparent 0 15px,#9fb0d00b 15px 16px),repeating-linear-gradient(90deg,transparent 0 15px,#9fb0d00b 15px 16px)}
+:root[data-style="gusuku"] :is(.panel,.metric){border-radius:5px}
+:root[data-style="gusuku"] header{border-top:4px solid var(--action)}
+:root[data-style="gusuku"] .brand-icon{border-radius:4px}
+:root[data-style="yanbaru"] .shell>aside{background-image:radial-gradient(ellipse at 0 100%,#9db37544 0 18%,transparent 19%),radial-gradient(ellipse at 100% 100%,#d6b15f33 0 18%,transparent 19%);background-size:48px 38px;background-repeat:repeat-x;background-position:bottom}
+:root[data-style="yanbaru"] header{border-top:4px solid var(--accent-border)}
+:root[data-style="yanbaru"] .panel{border-radius:12px 4px 12px 4px}
+:root[data-style="yanbaru"] .title-row{border-image:repeating-linear-gradient(90deg,#9a442e 0 22px,#c6a457 22px 44px,#486b98 44px 66px,#63845c 66px 88px) 1}
+@media(max-width:1100px){header>span{display:none}header>div{width:100%;justify-content:flex-end}}
+@media(max-width:720px){header>div{justify-content:flex-start;gap:8px}.theme-control>span{display:inline}.theme-control{gap:5px}.style-control{flex:1}.style-control select{max-width:100%;width:100%;min-width:0}header .primary{margin-left:auto}.theme-control select{min-height:36px}header{padding:10px 12px}}
+@media(max-width:400px){header .theme-control>span{display:none}.style-control{max-width:calc(100% - 90px)}}
+
+/* Paint buttons consistently with the selected palette in native dark mode. */
+button{appearance:none;-webkit-appearance:none}
