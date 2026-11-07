@@ -1,0 +1,30 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="600" height="120" viewBox="0 0 600 120">
+ <defs>
+  <g id="bloom" fill="#c96750">
+   <ellipse cy="-13" rx="8" ry="13"/>
+   <ellipse cy="-13" rx="8" ry="13" transform="rotate(72)"/>
+   <ellipse cy="-13" rx="8" ry="13" transform="rotate(144)"/>
+   <ellipse cy="-13" rx="8" ry="13" transform="rotate(216)"/>
+   <ellipse cy="-13" rx="8" ry="13" transform="rotate(288)"/>
+   <circle r="5" fill="#f5eedc"/>
+  </g>
+ </defs>
+ <path fill="#f5eedc" d="M0 0h600v120H0z"/>
+ <!-- Horse-girl ears and racing ribbon, reduced to a single emblem. -->
+ <g transform="translate(57 60)">
+  <path d="M-19 9c-4-12-6-30-2-40 10 5 16 18 18 30M6-1c1-12 7-25 17-30 4 11 2 29-3 40" fill="#304b66"/>
+  <path d="M-6 10-24-2v24L-6 15M6 10 24-2v24L6 15" fill="#c96750"/>
+  <circle cy="12" r="7" fill="#d5aa54"/>
+ </g>
+ <use href="#bloom" transform="translate(153 54)"/>
+ <path d="M184 91c11-15 21-15 31-5s19 10 30-4" fill="none" stroke="#337e80" stroke-width="6" stroke-linecap="round"/>
+ <path d="M257 33v29a23 23 0 0 0 46 0V33" fill="none" stroke="#304b66" stroke-width="12" stroke-linecap="round"/>
+ <path d="M257 38v8m46-8v8" stroke="#d5aa54" stroke-width="4" stroke-linecap="round"/>
+ <g transform="translate(367 58)">
+  <path d="M-24 11c14-27 33-27 47-13-14 20-32 23-47 13" fill="#337e80"/>
+  <path d="m-14 10 27-8" stroke="#f5eedc" stroke-width="3" stroke-linecap="round"/>
+ </g>
+ <use href="#bloom" transform="translate(459 66) scale(.8)"/>
+ <path d="M521 57c10-12 19-12 28-3s18 9 28-3M521 73c10-12 19-12 28-3s18 9 28-3" fill="none" stroke="#337e80" stroke-width="6" stroke-linecap="round"/>
+ <g fill="#d5aa54"><circle cx="111" cy="91" r="4"/><circle cx="217" cy="30" r="4"/><circle cx="411" cy="26" r="4"/><circle cx="499" cy="101" r="4"/></g>
+</svg>
