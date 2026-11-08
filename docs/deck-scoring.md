@@ -68,3 +68,47 @@ scenario differentiation, not universal superiority for either card. Trainee
 growth, desired skills, owned limit breaks and user constraints still affect the
 recommendation. Course-specific Stamina targets, inheritance stat totals, mood
 scheduling, recovery overflow and event-chain completion remain outside the model.
+
+## 9 November: search correctness and stamina requirements
+
+Two selection defects were separate from the limitations of the training model:
+identical skill/type profiles retained only one deck based on standalone card
+scores, and equal skill outcomes were finally tied by the same standalone sum.
+Profiles now retain up to four concrete decks. Up to four representative
+skill-coverage/outing-count seeds receive two rounds of full-deck single-slot
+swap evaluation. Swaps preserve every skill-source tier, ownership, character
+restrictions, scenario availability, type minima, race bonus and the Pal cap.
+Equal final outcome scores now prefer the actual complete-deck training score.
+This is still bounded local search, not exhaustive deck optimization; two-card
+changes with an initially worse intermediate step can still be missed.
+
+The new `Unity Cup · 2 Speed / 3 Wit / Riko` template and separate
+`Require Riko in automatic Unity decks` option treat Riko as a deck requirement,
+not a fabricated score bonus. An owned R or SSR, or a legal borrowed SSR,
+qualifies. Automatic multi-scenario search applies it only to Unity results.
+Manual decks retain their exact six choices. Conflicting constraints produce
+an error rather than silently substituting Aoi. Old plans are not modified.
+
+Per-card details now show initial stamina, modeled event stamina/guts and event
+skill points separately. Riko's raw ordinary event-stamina vector is 95 before
+Event Effectiveness (128.25 at MLB SSR), plus 30 initial stamina. This is the
+inherited aggregate model, not a verified sum of all Unity-specific conditional
+event routes. Energy discounting never discounts those stamina rewards.
+
+The equal-stat balanced heuristic still credits Fukukitaru's 150 initial stats,
+event stats, race bonus and coarse scenario-link allowance. Aoi's large event
+skill-point vector can compete with Riko's stamina if those values are weighted
+equally. Maruzensky's facility-level unique is represented by a static 15%
+training bonus (level 3), not a modeled Unity facility progression (5% per
+facility level). These limitations are not fixed by widening the search.
+Do not interpret this index as proof that Fukukitaru beats Maruzensky in an
+actual career, or that any deck can survive its medium/long race schedule.
+
+Sources checked 9 November:
+- https://uma.guide/guides/unity-cup-deckbuilding-guide
+- https://gametora.com/umamusume/supports/30107-maruzensky
+- https://gametora.com/umamusume/supports/30036-riko-kashimoto
+
+The screenshot does not provide the whole owned collection, Kitasan/Riko limit
+breaks, filters or all objective settings. Regression fixtures use explicitly
+chosen collections; they do not claim to reproduce the user's complete save.

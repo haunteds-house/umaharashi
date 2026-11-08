@@ -6,6 +6,7 @@ export const supportAllowed=(c,scenario)=>!(supportRules[c.id]?.blockedScenarios
 export const deckTypes=['Speed','Stamina','Power','Guts','Intelligence'];
 export const deckTemplates={
  free:{name:'Flexible · no type minimums',minimums:{},raceBonus:0},
+ unityStamina:{name:'Unity Cup · 2 Speed / 3 Wit / Riko',minimums:{Speed:2,Intelligence:3},raceBonus:35,scenario:'Aoharu',requireUnityRiko:true,note:'Reserve Riko for stamina from events. Check inherited stamina and race needs separately.',source:'unity-cup-deckbuilding-guide'},
  unity:{name:'Unity Cup · 2 Speed / 3 Wit',minimums:{Speed:2,Intelligence:3},raceBonus:35,scenario:'Aoharu',note:'One flex slot, commonly Riko. Adapt for stamina needs or strong Speed growth.',source:'unity-cup-deckbuilding-guide'},
  mant:{name:'Trackblazer · 2 Speed / 2 Wit',minimums:{Speed:2,Intelligence:2},raceBonus:50,scenario:'MANT',note:'Two flex slots for skills, stamina, or growth. Career-specific character events are unavailable.',source:'trackblazer'},
  guts:{name:'Trackblazer · 3 Guts / 2 Wit',minimums:{Guts:3,Intelligence:2},raceBonus:50,scenario:'MANT',note:'One flex slot. Check stamina and skill access before committing.',source:'trackblazer'},
