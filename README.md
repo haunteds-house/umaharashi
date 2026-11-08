@@ -1,4 +1,4 @@
-# Umaplan
+# Umaharashi
 
 A static, browser-local Umamusume collection and lineage planner, built for this repository's GitHub Pages site.
 
@@ -33,7 +33,7 @@ Your imports stay in IndexedDB on the current browser and site origin. No teleme
 
 The workflow in `.github/workflows/pages.yml` tests, builds, and deploys pushes to `main`. In repository **Settings → Pages**, the source must be **GitHub Actions**. An owner must select this source once before deployment. The workflow intentionally does not use `enablement: true`: its token has deployment permissions, but cannot create the Pages site. After enabling Pages, open Actions → Test and deploy GitHub Pages → Run workflow, selecting `main`.
 
-All paths are relative, including the worker and JSON resources, so deployment under `/umaplan/` works. Hash navigation avoids server-side routing requirements.
+All paths are relative, including the worker and JSON resources, so deployment under `/umaharashi/` works. Hash navigation avoids server-side routing requirements.
 
 ## Local development
 
@@ -182,3 +182,10 @@ cap. Course context is informational and does not change inheritance probabiliti
 See [research review](docs/research-review.md) for sources, uncertainties and
 future integrations. Refresh the compact MDB/course exports with
 `python scripts/planning_data.py`; no personal API key or MDB upload is needed.
+
+## Renamed from Umaplan
+
+The site is now Umaharashi at https://haunteds-house.github.io/umaharashi/.
+The existing IndexedDB database, appearance keys and JSON format identifiers
+retain their original names so saved collections, preferences and old backups
+remain compatible on the same browser origin. Export filenames use Umaharashi.

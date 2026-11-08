@@ -8,7 +8,7 @@ every table or formula in the full archive has been independently verified.
 
 ## Implemented
 
-| Finding | Umaplan change | Source |
+| Finding | Umaharashi change | Source |
 |---|---|---|
 | Parent farming needs skill access as well as training strength | Four starter loop packages; editable skill/training balance | [Parenting](https://uma.guide/guides/parenting-in-umamusume) |
 | Scenario deck structures are starting frameworks | Editable type minimums and race bonus; Unity, Trackblazer and Grand Concert templates | [Unity](https://uma.guide/guides/unity-cup-deckbuilding-guide), [Trackblazer](https://uma.guide/guides/trackblazer), [Grand Concert](https://uma.guide/guides/grand-concert) |
@@ -20,14 +20,14 @@ every table or formula in the full archive has been independently verified.
 | Current Global course data is publicly available | 119-course context selector, late-race boundary and final straight | [uma.moe resources](https://uma.moe/resources/) |
 
 Presets add skills without deleting existing goals and save the previous plan.
-The 90/10 weighting and scenario starting choices are Umaplan planning defaults,
+The 90/10 weighting and scenario starting choices are Umaharashi planning defaults,
 not values claimed to come from a guide. CM presets are for farming parents;
 they do not prescribe the gold skills to buy on the final racer.
 
 ## Conflicts and limits
 
 - Older spark guidance uses additive lineage boosts; the newer parenting article
-  and Hakuraku's observed data support the exponential model already in Umaplan.
+  and Hakuraku's observed data support the exponential model already in Umaharashi.
   No change to that model was needed.
 - Mid-rank star distributions differ between the parenting article and observed
   spark-generation research. No new star-distribution calculator was introduced.

@@ -76,7 +76,7 @@ No private game files, account exports, credentials, or external site applicatio
   Missing model records are shown as unavailable; they are not assigned guessed
   effects. The model's reference numerical test is retained in our test suite.
 
-- Umaplan adapts the calculator to deduct the full deck's outing allowance in
+- Umaharashi adapts the calculator to deduct the full deck's outing allowance in
   every marginal evaluation (card-specific MDB totals for Pal/Group cards).
   Bonding days are clamped to the available training days. The default one-card
   Pal/Group limit is an adjustable planning preference, not a game rule.

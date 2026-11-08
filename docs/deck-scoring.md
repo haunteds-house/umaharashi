@@ -20,7 +20,7 @@ other better combinations.
 
 By default the complete-deck model multiplies energy recovery and energy-saving
 value by `1 / (1 + 0.5 × number of Wit cards)`. Three Wit cards therefore use
-40% of the original energy valuation. This is an explicitly labeled Umaplan
+40% of the original energy valuation. This is an explicitly labeled Umaharashi
 heuristic for reduced recovery demand, NOT an observed event probability or
 an energy-cap simulation. It applies equally to all cards and all scenarios.
 The user can disable it under Support deck settings. Raw stats, skill chances,

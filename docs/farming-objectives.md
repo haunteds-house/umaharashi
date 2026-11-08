@@ -22,4 +22,4 @@ Each result keeps its original plan and candidate snapshot for explanations and 
 
 Compact help bubbles open on hover, keyboard focus or tap, dismiss with Escape or an outside click, and retain visible warnings. Detailed formulas remain in an expandable calculation section.
 
-These features are independently implemented. UmaLegacyLinker's normalized weighting, diagnostic contributions and comparison design informed the approach; its source code and contextual race-priority tables were not copied. Its generation heuristic does not replace Umaplan's creation model.
+These features are independently implemented. UmaLegacyLinker's normalized weighting, diagnostic contributions and comparison design informed the approach; its source code and contextual race-priority tables were not copied. Its generation heuristic does not replace Umaharashi's creation model.

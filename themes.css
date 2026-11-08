@@ -49,3 +49,7 @@ button{appearance:none;-webkit-appearance:none}
 .bingata-band{height:78px;background-color:var(--cream);background-size:auto 100%;border-bottom-color:var(--line)}
 .manual-deck-grid{display:grid;grid-template-columns:1fr;gap:10px;margin:12px 0}.manual-slot{display:flex;align-items:center;gap:8px;padding:10px;border:1px solid var(--line);border-radius:8px;background:var(--surface);min-width:0}.manual-slot>label{flex:1;min-width:0}.manual-slot select{width:100%}.manual-slot .support-art{width:36px;height:50px}.remote-saved{display:grid;gap:5px;padding:12px 0;border-bottom:1px solid var(--line);font-size:12px}.remote-result{display:flex;align-items:center;gap:12px;padding:12px 0;border-bottom:1px solid var(--line)}.remote-result>div{flex:1;min-width:0}.remote-borrow{color:var(--green)}#remote-results{margin-top:16px}#remote-pool{margin-bottom:14px}#remote-key,#remote-trainer{width:100%}
 @media(max-width:720px){.bingata-band{height:64px}.remote-result{flex-wrap:wrap}.remote-result button{margin-left:auto}}
+
+/* The longer name stays within the narrow sidebar. */
+.brand{flex-direction:column;align-items:flex-start;font-size:24px;gap:8px}.brand span{white-space:nowrap}
+@media(max-width:1250px){.brand{font-size:20px}}
