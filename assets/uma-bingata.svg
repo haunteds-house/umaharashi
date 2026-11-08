@@ -1,31 +1,37 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="1200" height="180" viewBox="0 0 1200 180">
  <defs>
-  <!-- An original stable silhouette: broad tiled eaves and open stall doors. -->
-  <g id="stable" fill="#183c49">
-   <path d="M-12 50Q35 39 70 6q35 33 82 44l-8 12H-4Z"/>
-   <path d="M7 62h126v68H7Z"/>
-   <path d="M-12 50q80 18 164 0" fill="none" stroke="#f07830" stroke-width="3"/>
-   <path d="M27 80h24v50H27Zm62 0h24v50H89Z" fill="#f07830"/>
-   <path d="M60 75h20v55H60Z" fill="#f07830"/>
-   <path d="m24 42 36-12m32 0 35 12" stroke="#f07830" stroke-width="2" fill="none"/>
-  </g>
-  <g id="horse" fill="#183c49">
-   <path d="M0 30q-12-12-20-2 11-2 16 12l-1 21-8 27h8L8 66l4-17 30 2 9 33h8l-8-36 5-13 18-6 4-8-12-13-3-12-6 13-12 5-13 18Z"/>
-   <path d="m11 48 6 35h7l-3-36m20-11 18-29-10 4-14 24"/>
+  <pattern id="tiles" width="18" height="16" patternUnits="userSpaceOnUse" patternTransform="skewX(-18)">
+   <path fill="#b86e53" d="M0 0h18v16H0z"/>
+   <path d="M2 0v16M13 0v16M2 8h11" stroke="#eed7bc" stroke-width="2" fill="none"/>
+  </pattern>
+  <g id="flower" fill="#b85966"><path d="M0-14C8-24 18-10 8-5 23-5 18 12 7 8 10 23-7 23-7 8-20 15-24-3-9-5-20-14-6-23 0-14Z"/><circle r="4" fill="#e6bc66"/></g>
+  <g id="shisa" fill="#985e48">
+   <path d="M-15 5v-14l7 5 8-2 9 2 7-6v15l-5 12 3 13H7L4 18h-9l-3 12h-7l3-13Z"/>
+   <path d="M11 14q18 2 13-12-4-6-8 0" fill="none" stroke="#985e48" stroke-width="5" stroke-linecap="round"/>
+   <path d="m-9 1 5 1m8 0 5-1M-7 9q7 5 14 0" stroke="#f4e9d2" stroke-width="2" fill="none"/>
   </g>
  </defs>
- <path fill="#f07830" d="M0 0h1200v180H0z"/>
- <!-- Large, spare cloud forms leave the working interface visually quiet. -->
- <g fill="#fff5df">
-  <path d="M48 53h39a12 12 0 0 1 0-24h67a12 12 0 0 1 0 24h43a12 12 0 0 1 0 24h-39a12 12 0 0 1 0 24H91a12 12 0 0 1 0-24H48a12 12 0 0 1 0-24Z"/>
-  <circle cx="155" cy="43" r="23"/>
-  <path d="M381 119h50a8 8 0 0 1 0-16h50a8 8 0 0 1 0 16h34a8 8 0 0 1 0 16h-35a8 8 0 0 1 0 16h-50a8 8 0 0 1 0-16h-49a8 8 0 0 1 0-16Z"/>
- </g>
- <!-- Offset roof groups, rather than an evenly spaced decorative repeat. -->
- <use href="#stable" transform="translate(1090 -35) scale(1.15)"/>
- <use href="#stable" transform="translate(947 28) scale(1.15)"/>
- <use href="#stable" transform="translate(1100 87)"/>
- <use href="#stable" transform="translate(840 106) scale(.95)"/>
- <use href="#horse" transform="translate(704 104) scale(.8)"/>
- <path d="M650 179q48-12 104-5t108-3h338v9H650Z" fill="#183c49"/>
+ <!-- Low tiled house with plaster ridge and timber shutters. -->
+ <path d="M742 92h458v88H742Z" fill="#dfd3bc"/>
+ <path d="M745 110h100v70H745Zm122-2h103v72H867Zm136 0h139v72h-139Z" fill="#574c40"/>
+ <path d="M878 121h81v31h-81Z" fill="#a9c6bf"/>
+ <path d="M918 120v33M1003 160h139" stroke="#dfd3bc" stroke-width="4"/>
+ <path d="m711 90 47-62h378l64 62Z" fill="url(#tiles)"/>
+ <path d="M754 28h388M710 92h490" stroke="#d8ccb6" stroke-width="8"/>
+ <path d="M739 101h461" stroke="#574c40" stroke-width="9"/>
+ <use href="#shisa" transform="translate(944 17) scale(.75)"/>
+ <!-- Plastered shopfront and shallow timber awning. -->
+ <path d="M458 68h258v112H458Z" fill="#eadfc9"/>
+ <path d="M486 94h167v86H486Z" fill="#574c40"/>
+ <path d="M497 106h61v51h-61Zm73 0h71v51h-71Z" fill="#91aaa1"/>
+ <path d="M460 78h228l-12 16H449Z" fill="#74604b"/>
+ <path d="M463 73h224M484 94v86M653 94v86" fill="none" stroke="#574c40" stroke-width="6"/>
+ <use href="#shisa" transform="translate(683 65) scale(.5)"/>
+ <path d="M460 71V50h255v18" fill="none" stroke="#d2c4aa" stroke-width="9"/>
+ <!-- Loose leaves and bougainvillea, kept out of the working panels. -->
+ <g fill="#66846c"><path d="M410 9q75-25 123 10-69 30-123-10M405 10q20 55 67 54-8-40-67-54M528 7q46-19 74 9-42 24-74-9M700 176q-25-27-16-47 31 5 16 47M709 176q2-36 27-39 7 27-27 39"/></g>
+ <use href="#flower" transform="translate(488 26) scale(.6)"/><use href="#flower" transform="translate(558 20) scale(.45)"/>
+ <!-- Fabric-inspired open cloud and wave accents. -->
+ <g fill="none" stroke="#7eaaa9" stroke-width="4" stroke-linecap="round"><path d="M55 68h49q24 0 24-12t-20-12q-18 0-18-11t35-11h44q24 0 24 12t-32 12h54q23 0 23 12t-36 12h-28q-22 0-22 11t24 11h35"/><path d="M205 136q18-15 36 0t36 0t36 0M205 149q18-15 36 0t36 0t36 0"/></g>
+ <use href="#flower" transform="translate(332 64) scale(.65)"/>
 </svg>

@@ -7,7 +7,8 @@ const rank=s=>s?.rarity===2?3:s?.skillName?.endsWith('◎')?2:1;
 // Bounded skill-coverage search, not a training-stat simulator or an exhaustive solver.
 export function prepareDecks({plan,supports,ownedSupports,skills,links,characters=[]}) {
  const training=createTrainingModel(plan,characters),weight=Math.min(1,Math.max(0,Number(plan.trainingWeight??25)/100));
- const requirements=deckRequirements(plan);
+ const manual=plan.deckMode==='manual';
+ const requirements=manual?{minimums:{},raceBonus:0}:deckRequirements(plan);
  const maxOutings=Number.isInteger(plan.maxOutingCards)?Math.max(0,Math.min(6,plan.maxOutingCards)):1;
  const outingCount=d=>d.cards.filter(isOutingCard).length;
  const wanted=plan.wanted,skillMap=new Map(skills.map(s=>[s.skillId,s]));
@@ -27,6 +28,21 @@ export function prepareDecks({plan,supports,ownedSupports,skills,links,character
  const beamValue=d=>(1-weight)*value(d)/Math.max(1,wanted.reduce((n,id)=>n+(plan.farmingObjective==='legacy'||!plan.farmingObjective||plan.farmingObjective==='package'?1:priority(plan,id)),0)*13)+weight*d.quality/(d.quality+3000);
  const order=(a,b)=>beamValue(b)-beamValue(a)||b.quality-a.quality||a.cards.map(c=>c.id).join(',').localeCompare(b.cards.map(c=>c.id).join(','));
  const extend=(d,c)=>({cards:[...d.cards,c],tiers:d.tiers.map((t,i)=>Math.max(t,c.sources[i]?.tier??0)),quality:d.quality+training.standalone(c)});
+ let finalists=[];
+ if(manual){
+  const ids=plan.manualDeck;
+  if(!Array.isArray(ids)||ids.length!==6||ids.some(id=>!Number.isSafeInteger(id)||id<=0))throw Error('Choose five owned supports and one borrowed support in the manual deck.');
+  const cards=ids.map((id,i)=>{
+   const meta=catalog.get(id);if(!meta)throw Error(`Support #${id} is absent from the bundled catalog.`);
+   const item=i<5?owned.find(c=>c.id===id):candidate(meta,null,true);
+   if(!item)throw Error(`Manual slot ${i+1} is not owned or cannot train this target in the selected scenario.`);
+   if(supportCharacters(item).includes(target))throw Error('A support card cannot be the target trainee.');
+   return item;
+  });
+  if(cards.some((c,i)=>cards.slice(0,i).some(x=>supportsConflict(x,c))))throw Error('Manual deck cards must have different characters, including Group-card members.');
+  if(!training.scenarios.some(s=>cards.every(c=>supportAllowed(c,s))))throw Error('This manual deck is unavailable in the selected scenarios.');
+  finalists=[cards.reduce(extend,seed)];
+ }else{
  let beam=[seed];
  for(let slot=0;slot<5;slot++){
   const next=new Map();for(const d of beam)for(const c of owned){if(d.cards.some(x=>supportsConflict(x,c))||outingCount(d)+(isOutingCard(c)?1:0)>maxOutings)continue;const x=extend(d,c);if(!canCompleteTypes(x.cards,requirements.minimums))continue;const key=x.cards.map(c=>c.id).sort((a,b)=>a-b).join(',');if(!next.has(key))next.set(key,x);}
@@ -38,9 +54,10 @@ export function prepareDecks({plan,supports,ownedSupports,skills,links,character
  const palKey=d=>d.cards.filter(isOutingCard).map(c=>`${c.id}:${c.limitBreak}`).sort().join(',')||'none';
  for(const d of beam)for(const c of borrowed){if(d.cards.some(x=>supportsConflict(x,c))||outingCount(d)+(isOutingCard(c)?1:0)>maxOutings)continue;const x=extend(d,c);if(!canCompleteTypes(x.cards,requirements.minimums))continue;if(requirements.raceBonus>0&&x.cards.some(c=>supportRaceBonus(c)===null))continue;if(x.cards.reduce((n,c)=>n+(supportRaceBonus(c)??0),0)<requirements.raceBonus)continue;const key=x.tiers.join(',')+'|'+x.cards.map(c=>c.type).sort().join(',')+'|'+palKey(x);if(!profiles.has(key)||order(x,profiles.get(key))<0)profiles.set(key,x);}
  // Retain each Pal/Group identity, not just its type: their scenario effects differ.
- const finalists=[];for(const key of new Set([...profiles.values()].map(palKey)))finalists.push(...[...profiles.values()].filter(d=>palKey(d)===key).sort(order).slice(0,8));
+ for(const key of new Set([...profiles.values()].map(palKey)))finalists.push(...[...profiles.values()].filter(d=>palKey(d)===key).sort(order).slice(0,8));
  // Keep broader no-Pal diversity as well.
  for(const d of [...profiles.values()].filter(d=>outingCount(d)===0).sort(order).slice(0,32))if(!finalists.includes(d))finalists.push(d);
+ }
  const decks=finalists.flatMap(d=>{const result=training.evaluate(d.cards);if(result.unavailable)return [];return result.comparisons.length?result.comparisons.map(comparison=>{const sourcesForScenario=plan.nodes[0].cardId?sources('character',plan.nodes[0].cardId):wanted.map(()=>null);const targetSkills=comparison.scenario==='MANT'?sourcesForScenario.map((source,i)=>{if(source?.kind!=='characterEvents')return source;const ids=skillIds[i];const own=ids.filter(id=>(links.skills?.[id]?.characters??[]).some(x=>x.id===plan.nodes[0].cardId)).map(id=>({skillId:id,skillName:skillMap.get(id)?.skillName,tier:rank(skillMap.get(id)),kind:'characters',detail:'Innate / awakening skill'}));return own.sort((a,b)=>b.tier-a.tier)[0]??null;}):sourcesForScenario;if(plan.scenarioHints!==false)for(let i=0;i<wanted.length;i++){const skill=skillIds[i].map(id=>skillMap.get(id)).find(skill=>skill&&((comparison.scenario==='URA'&&skill.skillName.startsWith('Racing Spirit:'))||(comparison.scenario==='Aoharu'&&skill.skillName.startsWith('Ignited Spirit '))));if(skill&&(!targetSkills[i]||targetSkills[i].tier<1))targetSkills[i]={skillId:skill.skillId,skillName:skill.skillName,tier:1,kind:'scenario',detail:comparison.scenario==='URA'?'Happy Meek duel hint; must earn and buy during this run':'Extreme Spirit Burst hint; must earn and buy during this run'};}return {...d,targetSources:targetSkills,tiers:wanted.map((_,i)=>Math.max(targetSkills[i]?.tier??0,...d.cards.map(c=>c.sources[i]?.tier??0))),training:{...result,...comparison}};}):[{...d,targetSources,training:result}];});
  if(!decks.length)throw Error('No legal five-owned + one-borrowed deck is available for this target and support constraints. Relax the Pal/Group limit, type minimums or race bonus, change scenario, or import more cards.');
  return decks;

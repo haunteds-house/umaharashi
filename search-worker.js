@@ -1,3 +1,4 @@
+import {legalBorrowPair} from './remote-parents.js';
 import {prepareDecks,scorePairWithDeck} from './deck.js';
 import {Engine,scorePair,compareParentMatches,baseId} from './core.js';
 self.onmessage=({data})=>{
@@ -12,7 +13,7 @@ self.onmessage=({data})=>{
  let checked=0,matched=0;const top=[];const total=left.length*right.length;
  for(let i=0;i<left.length;i++)for(let j=0;j<right.length;j++){
   checked++;
-  if(left[i].id===right[j].id||(!locked[0]&&!locked[1]&&j<=i))continue;
+  if(!legalBorrowPair(left[i],right[j])||left[i].id===right[j].id||(!locked[0]&&!locked[1]&&j<=i))continue;
   let score=scorePair(engine,plan,left[i],right[j]);
   if(score&&decks)score=scorePairWithDeck(engine,plan,left[i],right[j],score,decks);
   if(score){matched++;top.push(score);top.sort((a,b)=>compareParentMatches(a,b,plan.matchSort,plan.matchDirection));if(top.length>40)top.pop();}

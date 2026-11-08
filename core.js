@@ -51,9 +51,9 @@ export function normalizeImport(input,filename,catalog) {
  return {kind,data,filename:String(filename),importedAt:new Date().toISOString()};
 }
 export function emptyNode() { return {cardId:0,sparks:[],wins:[],winsKnown:true,sourceId:null}; }
-export function emptyPlan() { return {name:'Untitled lineage',farmingObjective:'legacy',sparkWeights:{},nodes:Array.from({length:15},emptyNode),wanted:[],bought:{},searchMode:'inherit',includeSupports:false,borrowSSR:true,maxOutingCards:1,scenario:'auto',autoScenarios:['URA','Aoharu','MANT','GL'],trainingFocus:'balanced',trainingWeight:25,deck:[],rolls:2,parentRaceBonus:false,pins:[false,false]}; }
+export function emptyPlan() { return {name:'Untitled lineage',farmingObjective:'legacy',sparkWeights:{},nodes:Array.from({length:15},emptyNode),wanted:[],bought:{},searchMode:'inherit',includeSupports:false,deckMode:'auto',manualDeck:[0,0,0,0,0,0],includeRemote:false,borrowSSR:true,maxOutingCards:1,scenario:'auto',autoScenarios:['URA','Aoharu','MANT','GL'],trainingFocus:'balanced',trainingWeight:25,deck:[],rolls:2,parentRaceBonus:false,pins:[false,false]}; }
 export function placeVeteran(plan,index,v) {
- const copy=structuredClone(plan); const put=(i,n)=>{if(i<15)copy.nodes[i]={cardId:n.cardId,sparks:structuredClone(n.sparks),wins:[...n.wins],winsKnown:n.winsKnown,sourceId:n.id??null};};
+ const copy=structuredClone(plan); const put=(i,n)=>{if(i<15)copy.nodes[i]={cardId:n.cardId,sparks:structuredClone(n.sparks),wins:[...n.wins],winsKnown:n.winsKnown,sourceId:n.id??null,remote:!!n.remote,trainerId:n.trainerId??null,trainerName:n.trainerName??null};};
  put(index,v);
  for(let side=0;side<2;side++) {
   const child=index*2+side+1;if(child>=15)continue;
@@ -168,6 +168,7 @@ export function summarizeChances(chances,ids=[],aliases={}) {
  return {average:chances.reduce((s,p)=>s+p,0)/chances.length,allChance,expectedRuns:allChance?1/allChance:Infinity};
 }
 export function scorePair(engine,plan,a,b) {
+ if(a.remote&&b.remote)return null;
  if(baseId(a.cardId)===baseId(b.cardId)||[a,b].some(x=>baseId(x.cardId)===baseId(plan.nodes[0].cardId)))return null;
  const nodes=pairNodes(plan.nodes[0],a,b),ev=plan.nodes[0].cardId?engine.evaluate(nodes,plan.parentRaceBonus):baselineEvaluation(nodes);
  if(!ev.complete)return null;
