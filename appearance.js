@@ -2,7 +2,7 @@
 (() => {
   const root = document.documentElement;
   for (const [id, attribute, key, allowed, fallback] of [
-    ['style-choice', 'style', 'umaplan-style', ['classic', 'reef', 'gusuku', 'yanbaru'], 'classic'],
+    ['style-choice', 'style', 'umaplan-style', ['tokyo', 'nakayama', 'kyoto', 'hanshin', 'chukyo', 'sapporo', 'hakodate', 'fukushima', 'niigata', 'kokura', 'okinawa'], 'tokyo'],
     ['theme-choice', 'theme', 'umaplan-theme', ['system', 'light', 'dark'], 'system'],
   ]) {
     const control = document.getElementById(id);
