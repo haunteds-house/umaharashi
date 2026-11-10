@@ -1,7 +1,7 @@
 import {mkdir,rm,cp,readFile,writeFile} from 'node:fs/promises';
 import {createHash} from 'node:crypto';
 const root=new URL('../',import.meta.url),dist=new URL('dist/',root);
-const files=['remote-parents.js','assets/umaplan-mark.svg','appearance.js','ui-state.js','farming.js','help.js','index.html','styles.css','themes.css','app.js','reference.js','core.js','storage.js','search-worker.js','veteran-search.js','search-ui.js','deck.js','training.js','training-options.js','planning.js','support-rules.js','picker.js','scenario-supports.js'];
+const files=['transfer.js','transfer-ui.js','transfer-worker.js','remote-parents.js','assets/umaplan-mark.svg','appearance.js','ui-state.js','farming.js','help.js','index.html','styles.css','themes.css','app.js','reference.js','core.js','storage.js','search-worker.js','veteran-search.js','search-ui.js','deck.js','training.js','training-options.js','planning.js','support-rules.js','picker.js','scenario-supports.js'];
 const sources=await Promise.all(files.map(async name=>[name,await readFile(new URL(name,root),'utf8')]));
 // One content-derived version for the entire runtime dependency graph, including
 // worker imports. New HTML cannot reuse an older cached planner or stylesheet.

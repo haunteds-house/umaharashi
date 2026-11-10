@@ -46,7 +46,7 @@ export function normalizeImport(input,filename,catalog) {
   if(kind==='trainees')return {id,cardId:Number(r.card_id),rarity:Number(r.rarity)||0,talent:Number(r.talent_level)||0};
   const node=nodeFromRaw(r,catalog);
   const parents=arr(r.succession_chara_array).filter(p=>[10,20].includes(Number(p.position_id))).sort((a,b)=>a.position_id-b.position_id).map(p=>({...nodeFromRaw(p,catalog),position:Number(p.position_id)}));
-  return {id,...node,parents,scenario:r.scenario_id==null?null:Number(r.scenario_id),stats:Object.fromEntries(stats.map(s=>[s,Number(r[s])||0])),aptitudes:Object.fromEntries(aptitudes.map(([label,key])=>[label,Number(r[key])||0])),rating:Number(r.rank_score)||0,rarity:Number(r.rarity)||0,skills:arr(r.skill_array).map(s=>({id:Number(s.skill_id),level:Number(s.level)||1})),memo:String(r.memo??''),date:String(r.create_time??r.register_time??'')};
+  return {id,...node,parents,scenario:r.scenario_id==null?null:Number(r.scenario_id),stats:Object.fromEntries(stats.map(s=>[s,Number(r[s])||0])),aptitudes:Object.fromEntries(aptitudes.map(([label,key])=>[label,Number(r[key])||0])),rating:Number(r.rank_score)||0,rarity:Number(r.rarity)||0,skills:arr(r.skill_array).map(s=>({id:Number(s.skill_id),level:Number(s.level)||1})),locked:[true,false,0,1,'0','1'].includes(r.is_locked)?[true,1,'1'].includes(r.is_locked):null,saved:[true,1,'1'].includes(r.is_saved),memo:String(r.memo??''),date:String(r.create_time??r.register_time??'')};
  });
  return {kind,data,filename:String(filename),importedAt:new Date().toISOString()};
 }

@@ -97,3 +97,12 @@ See [deck-scoring.md](docs/deck-scoring.md) for scenario-link ID mapping,
 Pal-identity retention, the optional Wit-dependent recovery heuristic, and
 explicit limits on event/lesson simulation. Upstream event vectors remain
 unchanged; linked-scenario index allowances are not factual stat rewards.
+
+## Transfer optimizer
+
+- Workflow reference: [Uma Legacy Linker Transfer Helper](https://github.com/Rom1foucher/UmaLegacyLinker/blob/main/docs/SCORING.md#12-transfer-helper).
+- Original implementation with conservative per-carrier spark/race coverage,
+  rather than a copy of upstream contextual scoring. Scope, differences and
+  protections are documented in [transfer-optimizer.md](docs/transfer-optimizer.md).
+- Lock and saved flags follow `is_locked` / `is_saved` in the public umadump
+  `json_encoders/trained_chara.py` schema. Missing lock metadata stays unknown.
