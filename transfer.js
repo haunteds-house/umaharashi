@@ -46,7 +46,6 @@ export function optimizeTransfers(veterans,factors,options={},planIds=[],progres
   const r=profile(v,catalog,settings.racing);
   r.reasons=[];
   if(v.locked===true)r.reasons.push('Locked in game');
-  if(v.saved===true)r.reasons.push('Saved in game');
   if(String(v.memo??'').trim())r.reasons.push('Has a memo');
   if(used.has(r.id))r.reasons.push('Used in the current or a saved plan');
   if(manual.has(r.id))r.reasons.push('Manually protected');

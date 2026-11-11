@@ -5,6 +5,7 @@ Run from repository root. Review changes and run npm test before committing.
 import concurrent.futures
 import datetime
 import gzip
+import hashlib
 import json
 import pathlib
 import re
@@ -49,8 +50,11 @@ def main():
     entries = {x['name']: x for x in manifest['artifacts']}
     names = ['affinity', 'factors', 'race_to_saddle_mapping']
     def get(name):
-        path = entries[name + '.json'].get('current_path') or entries[name + '.json']['path']
-        return name, json.loads(fetch('https://uma.moe' + path))
+        entry = entries[name + '.json']
+        raw = fetch('https://uma.moe' + entry['path'])
+        if hashlib.sha256(raw).hexdigest() != entry['sha256']:
+            raise ValueError('Checksum mismatch: ' + name)
+        return name, json.loads(raw)
     with concurrent.futures.ThreadPoolExecutor(max_workers=3) as pool:
         data = dict(pool.map(get, names))
     a = data['affinity']; size = len(a['chars'])

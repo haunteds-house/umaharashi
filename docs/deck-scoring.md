@@ -112,3 +112,14 @@ Sources checked 9 November:
 The screenshot does not provide the whole owned collection, Kitasan/Riko limit
 breaks, filters or all objective settings. Regression fixtures use explicitly
 chosen collections; they do not claim to reproduce the user's complete save.
+
+## 11 November: borrowed/owned exchanges
+
+Refinement now permits improved skill-source tiers, while still rejecting a loss
+in any existing source. Candidate changes are compared using the configured
+skill/training balance instead of training alone. It also evaluates coordinated
+changes that bring the currently borrowed character into an owned slot while
+choosing another borrow. This avoids an illegal duplicate-character intermediate
+or a temporary loss of skill access blocking both changes. Ownership limits,
+scenario restrictions, type minima and Pal requirements still apply. The search
+remains bounded; this does not resolve the training model's documented limits.

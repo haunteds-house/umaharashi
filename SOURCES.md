@@ -31,7 +31,7 @@ Retrieved 2026-10-29. Umamusume names and game data belong to Cygames. This inde
 
 ## Updating the bundled snapshot
 
-The data is deliberately versioned with the source, rather than remotely fetched every time a user opens the app. Use `python3 scripts/refresh_data.py` from the repository root to fetch the currently published Global data and validate its structure. Review the data diff, run `npm test`, and commit the updated snapshot. The updater refuses incomplete resources. If a site's public bundle format changes, the updater fails rather than guessing new mappings.
+The data is deliberately versioned with the source, rather than remotely fetched every time a user opens the app. Use `python3 scripts/refresh_all.py` to stage and validate the complete Global snapshot. The GitHub Pages workflow also runs this daily and on deployment. Review the data diff, run `npm test`, and commit the updated snapshot. The updater refuses incomplete resources. If a site's public bundle format changes, the updater fails rather than guessing new mappings.
 
 No private game files, account exports, credentials, or external site application code are included in the published files.
 
@@ -106,3 +106,9 @@ unchanged; linked-scenario index allowances are not factual stat rewards.
   protections are documented in [transfer-optimizer.md](docs/transfer-optimizer.md).
 - Lock and saved flags follow `is_locked` / `is_saved` in the public umadump
   `json_encoders/trained_chara.py` schema. Missing lock metadata stays unknown.
+
+## Scheduled MDB and catalog refresh
+
+See [data-refresh.md](docs/data-refresh.md) for the transaction, checksum checks,
+training converter provenance, CI deployment and cache-version behavior. Actual
+source revisions and the MDB digest are recorded in `data/metadata.json`.

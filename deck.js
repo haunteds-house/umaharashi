@@ -1,3 +1,4 @@
+import {deckReplacements,preservesSourceTiers} from './deck-refinement.js';
 import {applyFarmingScore,priority} from './farming.js';
 import {supportCharacters,supportsConflict,supportAllowed,deckRequirements,canCompleteTypes} from './planning.js';
 import {createTrainingModel,combinedScore,isOutingCard,supportRaceBonus} from './training.js';
@@ -62,6 +63,7 @@ export function prepareDecks({plan,supports,ownedSupports,skills,links,character
  for(const d of profileDecks.filter(d=>outingCount(d)===0).sort(order).slice(0,32))if(!finalists.includes(d))finalists.push(d);
  }
  // Improve representative skill-coverage profiles using the complete deck model.
+ // Also exchange borrowed/owned characters together to escape ownership conflicts.
  // Owned slots stay owned and the borrowed slot stays MLB. Two passes allow a
  // jointly useful owned/borrowed replacement; this remains a bounded search.
  const legalDeck=cs=>outingCount({cards:cs})<=maxOutings&&canCompleteTypes(cs,requirements.minimums)&&
@@ -79,15 +81,14 @@ export function prepareDecks({plan,supports,ownedSupports,skills,links,character
   for(let current of seeds){
    for(let pass=0;pass<2;pass++){
     let best=current;
-    for(let slot=0;slot<6;slot++)for(const c of slot===5?borrowed:owned){
-     if(c.id===current.cards[slot].id)continue;
-     const cs=current.cards.map((x,i)=>i===slot?c:x);if(!legalDeck(cs))continue;
+    for(const cs of deckReplacements(current.cards,owned,borrowed,supportsConflict)){
+     if(!legalDeck(cs))continue;
      const trial=cs.reduce(extend,seed);
-     // Preserve every source tier, not just the sum: all parent pairs can use
+     // Preserve or improve every source tier, not just the sum: all parent pairs can use
      // the training improvement without losing a requested skill source.
-     if(trial.tiers.some((t,i)=>t!==current.tiers[i]))continue;
+     if(!preservesSourceTiers(trial.tiers,current.tiers))continue;
      trial.quality=fullQuality(trial);
-     if(trial.quality>best.quality+1e-9)best=trial;
+     if(order(trial,best)<0)best=trial;
     }
     if(best===current)break;current=best;
    }

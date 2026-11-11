@@ -15,7 +15,7 @@ test('duplicate copies retain a deterministic witness, not circular transfers',(
 });
 test('all protection sources survive even when otherwise redundant',()=>{
  const rows=[veteran(1,{locked:true}),veteran(2,{memo:'keep'}),veteran(3,{saved:true}),veteran(4),veteran(5),veteran(6)];
- const result=run(rows,{protectedIds:['4']},['5']);assert.equal(result.counts.protected,5);assert.equal(result.counts.transfer,1);
+ const result=run(rows,{protectedIds:['4']},['5']);assert.equal(result.counts.protected,4);assert.equal(result.counts.transfer,2);
 });
 test('missing lock metadata and incomplete ancestry/history remain review',()=>{
  for(const extra of [{locked:null},{locked:undefined},{parents:[]},{winsKnown:false},{sparks:[{id:999,stars:3}]}]){
@@ -74,4 +74,10 @@ test('UI discards late worker results and blocks export after workspace changes'
   click('data-transfer-export');assert.equal(exports,1);
   ui.invalidate();click('data-transfer-export');assert.equal(exports,1);assert.match(ui.render(),/Results are outdated/);
  }finally{globalThis.Worker=previous;}
+});
+
+test('is_saved is metadata, not protection: an all-saved roster can be optimized',()=>{
+ const result=run([veteran(1,{saved:true}),veteran(2,{saved:true}),veteran(3,{saved:true,locked:true})]);
+ assert.equal(result.counts.protected,1);assert.equal(result.counts.transfer,2);
+ assert.deepEqual(result.rows.find(r=>r.id==='3').reasons,['Locked in game']);
 });

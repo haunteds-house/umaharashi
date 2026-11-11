@@ -2,3 +2,5 @@ dist/
 node_modules/
 .openai/
 *.local.json
+
+__pycache__/

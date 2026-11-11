@@ -76,3 +76,8 @@ test('explicit learned-tier cap is honored in deck mode without inventing gold a
  const unavailable={...deck,tiers:[1],targetSources:[{tier:1,kind:'characters',skillName:'Prudent Positioning'}]};assert.equal(scorePairWithDeck(engine,p,a,b,base,[unavailable]).chances[0],.2);
  p.bought[200450].inspirationOnly=true;assert.equal(scorePairWithDeck(engine,p,a,b,base,[deck]).chances[0],0);
 });
+
+test('every published support has training parameters at every owned limit break',()=>{
+ const available=new Set(cards.map(c=>`${c.id}:${c.limit_break}`));
+ for(const support of D.supports)for(let lb=0;lb<=4;lb++)assert.ok(available.has(`${support.supportCardId}:${lb}`),`Missing support ${support.supportCardId}, LB ${lb}`);
+});

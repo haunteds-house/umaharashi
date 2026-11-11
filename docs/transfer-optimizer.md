@@ -50,7 +50,7 @@ other transfer candidates. Unknown/incomplete records cannot act as witnesses.
 
 ## Protections and missing data
 
-In-game `is_locked`, `is_saved`, non-empty memos, manual protections, and local
+In-game `is_locked`, non-empty memos, manual protections, and local
 `sourceId` references in the current/saved plans are retained. Import normalization
 now preserves lock/saved metadata. Old normalized collections cannot recover
 flags discarded by earlier versions; reimport the original veteran JSON.
@@ -69,3 +69,6 @@ protection source, incomplete data, outfit/Unique/ancestry separation, spark and
 race preservation, collective witnesses, minimum retained counts, optional
 racing values and the real string-ID factor catalog. UI checks cover tab routing,
 empty state and settings. Runtime packaging includes both worker and module.
+
+The export’s `is_saved` field is retained as metadata only. It is not a lock or
+a manual protection signal and does not prevent transfer recommendations.

@@ -1,30 +1,50 @@
-name: Test and deploy GitHub Pages
+name: Refresh data, test and deploy GitHub Pages
 on:
   push:
     branches: [main]
+  schedule:
+    - cron: '17 19 * * *'
   workflow_dispatch:
 permissions:
-  contents: read
+  contents: write
   pages: write
   id-token: write
 concurrency:
   group: github-pages
-  cancel-in-progress: true
+  cancel-in-progress: false
 jobs:
   deploy:
     runs-on: ubuntu-latest
+    timeout-minutes: 25
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
     steps:
       - uses: actions/checkout@v4
+        with:
+          ref: main
       - uses: actions/setup-node@v4
         with:
           node-version: '22'
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Refresh Global MDB and public catalogs
+        run: python scripts/refresh_all.py
+      - run: python -m unittest discover -s tests -p '*_test.py'
       - run: npm test
       - run: npm run build
-      # Enable Pages once in Settings > Pages, with GitHub Actions as source.
-      # GITHUB_TOKEN can deploy an existing Pages site but cannot create it.
+      - name: Commit validated snapshot
+        run: |
+          git add data support-rules.js vendor/tierlist/cards.js vendor/tierlist/card-events.js
+          if ! git diff --cached --quiet; then
+            git config user.name 'github-actions[bot]'
+            git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+            git commit -m 'Refresh validated Global game data'
+            git push origin HEAD:main
+          fi
+          python -c 'import json; m=json.load(open("data/metadata.json")); print("Global snapshot: "+m["retrieved"]); print(m["counts"])' >> "$GITHUB_STEP_SUMMARY"
+      # The bot commit does not trigger another workflow; deploy in this run.
       - uses: actions/configure-pages@v5
       - uses: actions/upload-pages-artifact@v3
         with:
@@ -32,4 +52,3 @@ jobs:
       - name: Deploy
         id: deployment
         uses: actions/deploy-pages@v4
-

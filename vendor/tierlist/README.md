@@ -27,3 +27,17 @@ The calculator also accepts optional `scenarioLinkIds` and `energyUtilization`
 weights. The adapter uses IDs for Global links and can discount energy value
 based on Wit-card count. Neither option alters the unadapted upstream default.
 See ../../docs/deck-scoring.md for the heuristic and its limitations.
+
+## Automatic Global data refresh
+
+The calculator implementation and scenario presets remain pinned and locally
+adapted. Card parameters are now regenerated from the checksum-verified Global
+MDB by the checked-in `db-convert.py`, adapted from upstream blob
+`7aa48c4ec61425387b1da099f314dfec6259efb0` (same MIT license). Local changes select
+catalog IDs, open SQLite read-only, honor Unique unlock levels, use referenced
+effect table IDs, and reject unsupported effects instead of merely warning.
+The converter retains upstream static assumptions for conditional unique effects.
+
+Event vectors are parsed as data from a commit-pinned upstream URL; downloaded
+JavaScript is never executed. The source revision and MDB digest are recorded
+in `data/metadata.json`. See `../../docs/data-refresh.md`.
