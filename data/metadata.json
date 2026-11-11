@@ -1,12 +1,1 @@
-{
-  "region": "Global",
-  "retrieved": "2026-10-29",
-  "guideBundle": "https://uma.guide/assets/chunks/uma-data.bcmgdWNZ.js",
-  "moeVersion": "1.35.2-10008400-timeline-91a0d26b028c-jp-14373e21de9c-courses-cab407a733da-planner-a4ff0b44017a-geometry-782caf214e3d-jp-catalog-6dc894b54b36-master-e5364f1ceff2",
-  "counts": {
-    "characters": 112,
-    "supports": 265,
-    "skills": 741,
-    "factors": 448
-  }
-}
+{"region":"Global","retrieved":"2026-11-11","guideBundle":"https://uma.guide/assets/chunks/uma-data.DZBTnhPC.js","moeVersion":"1.35.3-10008600-timeline-d7d290cd7197-jp-4de4ac3ad8c7-courses-cab407a733da-planner-6b8f870ace5a-geometry-782caf214e3d-jp-catalog-6dc894b54b36-master-c9fb54b3a923","counts":{"characters":115,"supports":271,"skills":752,"factors":448},"masterSha256":"c9fb54b3a92325807ac17733c5df14272b7198a0a5fab535f4aa74c3e5137c4e","trainingEventsRevision":"a405c452f2b086c5d2e5f25626714756a79291a9","trainingModels":1355,"missingEventModels":[]}
