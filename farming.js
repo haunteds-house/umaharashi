@@ -28,7 +28,7 @@ export function applyFarmingScore(result,plan,aliases={}){
  const score=100*((1-trainingWeight)*skillUtility+trainingWeight*trainingUtility);
  return {...result,farming:{...farming,trainingWeight,skillUtility,skillPoints:100*(1-trainingWeight)*skillUtility,trainingPoints:100*trainingWeight*trainingUtility},...(farming.objective!=='legacy'?{combinedScore:score}:{})};
 }
-export const farmingFields=['wanted','bought','searchMode','includeSupports','deckMode','manualDeck','includeRemote','borrowSSR','maxOutingCards','scenario','autoScenarios','trainingFocus','trainingWeight','rolls','parentRaceBonus','farmingObjective','sparkWeights','deckTemplate','deckMinimums','minRaceBonus','requireUnityRiko','countEventSources','scenarioHints','recoveryAdjustment','courseId','goalPreset','matchSort','matchDirection'];
+export const farmingFields=['wanted','bought','searchMode','includeSupports','deckMode','manualDeck','includeRemote','borrowSSR','maxOutingCards','scenario','autoScenarios','trainingFocus','trainingWeight','rolls','parentRaceBonus','farmingObjective','sparkWeights','deckTemplate','deckMinimums','minRaceBonus','requireUnityRiko','countEventSources','scenarioHints','scenarioGoals','recoveryAdjustment','courseId','goalPreset','matchSort','matchDirection'];
 export function captureFarmingPreset(plan,search,name){return {version:1,name:String(name).trim().slice(0,100)||'Farming preset',settings:Object.fromEntries(farmingFields.filter(k=>plan[k]!==undefined).map(k=>[k,structuredClone(plan[k])])),search:structuredClone(search)};}
 export function restoreFarmingSettings(plan,preset,defaults){
  if(preset?.version!==1||!preset.settings||typeof preset.settings!=='object')throw Error('Invalid farming preset.');

@@ -24,7 +24,7 @@ test('type and race-bonus constraints include borrow and forbid group-member con
  assert.throws(()=>deckRequirements({deckMinimums:{Speed:4,Intelligence:3}}),/at most six/);
 });
 test('scenario hints are conditional, scenario-specific and can be disabled',()=>{
- const id=Number(D.factors.find(f=>f.text==='Racing Spirit: Stamina').id);const p={...emptyPlan(),scenario:'URA',wanted:[id]};
+ const id=Number(D.factors.find(f=>f.text==='Racing Spirit: Stamina').id);const p={...emptyPlan(),scenario:'URA',wanted:[id],scenarioGoals:{uraDuels:['Stamina']}};
  let decks=prepareDecks(options(p));assert.ok(decks.every(d=>d.targetSources[0]?.kind==='scenario'));
  decks=prepareDecks(options({...p,scenario:'GL'}));assert.ok(decks.every(d=>d.targetSources[0]===null));
  decks=prepareDecks(options({...p,scenarioHints:false}));assert.ok(decks.every(d=>d.targetSources[0]===null));

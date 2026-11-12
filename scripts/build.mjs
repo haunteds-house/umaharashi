@@ -1,7 +1,7 @@
 import {mkdir,rm,cp,readFile,writeFile,readdir} from 'node:fs/promises';
 import {createHash} from 'node:crypto';
 const root=new URL('../',import.meta.url),dist=new URL('dist/',root);
-const files=['deck-refinement.js','transfer.js','transfer-ui.js','transfer-worker.js','remote-parents.js','assets/umaplan-mark.svg','appearance.js','ui-state.js','farming.js','help.js','index.html','styles.css','themes.css','app.js','reference.js','core.js','storage.js','search-worker.js','veteran-search.js','search-ui.js','deck.js','training.js','training-options.js','planning.js','support-rules.js','picker.js','scenario-supports.js'];
+const files=['scenario-skills.js','deck-refinement.js','transfer.js','transfer-ui.js','transfer-worker.js','remote-parents.js','assets/umaplan-mark.svg','appearance.js','ui-state.js','farming.js','help.js','index.html','styles.css','themes.css','app.js','reference.js','core.js','storage.js','search-worker.js','veteran-search.js','search-ui.js','deck.js','training.js','training-options.js','planning.js','support-rules.js','picker.js','scenario-supports.js'];
 const vendorFiles=(await readdir(new URL('vendor/tierlist/',root))).filter(n=>n.endsWith('.js')).sort().map(n=>'vendor/tierlist/'+n);
 files.push(...vendorFiles);
 const dataFiles=(await readdir(new URL('data/',root))).filter(n=>n.endsWith('.json')).sort();
