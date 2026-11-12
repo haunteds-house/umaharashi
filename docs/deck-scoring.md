@@ -123,3 +123,15 @@ choosing another borrow. This avoids an illegal duplicate-character intermediate
 or a temporary loss of skill access blocking both changes. Ownership limits,
 scenario restrictions, type minima and Pal requirements still apply. The search
 remains bounded; this does not resolve the training model's documented limits.
+
+Multi-skill source consolidation is evaluated as a paired replacement: when two
+cards supply different requested source tiers, the search can replace them with
+one card covering both and a new training card. It scores the complete replacement
+without requiring the consolidating card to improve training on its own. Ownership,
+character conflicts, source tiers and deck constraints still apply. The search is
+bounded and does not prove a globally optimal deck.
+
+For example, SSR Smart Falcon (#30017) supplies Groundwork through an event and
+Center Stage through its event chain. Center Stage is the gold source for the
+Prudent Positioning factor, not a third independent factor. Both sources require
+event sources to be enabled; event completion is not guaranteed by the model.

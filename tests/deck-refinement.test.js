@@ -18,3 +18,17 @@ test('refinement accepts new skill sources without trading away another source',
  assert.equal(preservesSourceTiers([3,1,1],[1,1,0]),true);
  assert.equal(preservesSourceTiers([3,0,3],[1,1,0]),false);
 });
+
+test('multi-skill consolidation frees an owned slot without an improving intermediate swap',async()=>{
+ const {sourceConsolidations}=await import('../deck-refinement.js');
+ const card=(id,tiers,borrowed=false)=>({...c(id,id,borrowed),sources:tiers.map(tier=>tier?{tier}:null)});
+ const current=[card(1,[1,0]),card(2,[0,3]),card(3,[]),card(4,[]),card(5,[]),card(6,[],true)];
+ const consolidated=card(7,[1,3]),trainer=card(8,[]);
+ const rows=[...sourceConsolidations(current,[...current.slice(0,5),consolidated,trainer],[current[5]],conflicts,[0,0])];
+ assert.ok(rows.some(cs=>cs[0].id===7&&cs[1].id===8));
+ for(const cs of rows){assert.equal(cs.filter(c=>c.borrowed).length,1);assert.equal(new Set(cs.map(c=>c.charaId)).size,6);}
+ // A white-only substitute must not erase the incumbent gold source.
+ assert.equal([...sourceConsolidations(current,[...current.slice(0,5),card(7,[1,1]),trainer],[current[5]],conflicts,[0,0])].length,0);
+ // Trainee-provided coverage does not need another consolidation.
+ assert.equal([...sourceConsolidations(current,[consolidated,trainer],[current[5]],conflicts,[1,3])].length,0);
+});

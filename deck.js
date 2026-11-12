@@ -1,4 +1,4 @@
-import {deckReplacements,preservesSourceTiers} from './deck-refinement.js';
+import {deckReplacements,sourceConsolidations,preservesSourceTiers} from './deck-refinement.js';
 import {applyFarmingScore,priority} from './farming.js';
 import {supportCharacters,supportsConflict,supportAllowed,deckRequirements,canCompleteTypes} from './planning.js';
 import {createTrainingModel,combinedScore,isOutingCard,supportRaceBonus} from './training.js';
@@ -81,7 +81,8 @@ export function prepareDecks({plan,supports,ownedSupports,skills,links,character
   for(let current of seeds){
    for(let pass=0;pass<2;pass++){
     let best=current;
-    for(const cs of deckReplacements(current.cards,owned,borrowed,supportsConflict)){
+    const alternatives=function*(){yield* deckReplacements(current.cards,owned,borrowed,supportsConflict);yield* sourceConsolidations(current.cards,owned,borrowed,supportsConflict,seed.tiers);};
+    for(const cs of alternatives()){
      if(!legalDeck(cs))continue;
      const trial=cs.reduce(extend,seed);
      // Preserve or improve every source tier, not just the sum: all parent pairs can use

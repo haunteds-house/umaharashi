@@ -46,3 +46,15 @@ test('full-deck refinement preserves skill tiers, legality and finds useful owne
  assert.ok(best.cards.some(c=>c.id===30028&&!c.borrowed));
  assert.ok(!best.cards.some(c=>c.id===30084&&!c.borrowed));
 });
+
+test('SSR Smart Falcon supplies Groundwork and gold Prudent Positioning from the same slot',()=>{
+ const plan={...emptyPlan(),scenario:'URA',deckMode:'manual',manualDeck:[30017,20015,20050,30028,30084,30078],wanted:[201600,200450]};
+ const opts={plan,characters:D.characters,skills:D.skills,links:D['skill-links'],supports:D.supports,ownedSupports:plan.manualDeck.slice(0,5).map(cardId=>({cardId,limitBreak:4,level:50}))};
+ const deck=prepareDecks(opts)[0],falcon=deck.cards.find(c=>c.id===30017);
+ assert.deepEqual(falcon.sources.map(s=>s.skillName),['Groundwork','Center Stage']);
+ assert.deepEqual(falcon.sources.map(s=>s.tier),[1,3]);
+ assert.deepEqual(deck.tiers,[1,3]);
+ // Disabling event sources must remove both Falcon contributions.
+ const withoutEvents=prepareDecks({...opts,plan:{...plan,countEventSources:false}})[0];
+ assert.deepEqual(withoutEvents.cards.find(c=>c.id===30017).sources,[null,null]);
+});
