@@ -29,12 +29,6 @@ No game MDB is needed for these features. Names and game mechanics use a bundled
 
 Your imports stay in IndexedDB on the current browser and site origin. No telemetry, remote roster API, or third-party script is used. Artwork loads from uma.guide with no referrer; its server receives image requests, never JSON files. Missing images fall back to initials. Export a backup before clearing browser data or moving devices. Backups include personal memos; do not commit them to this public repository.
 
-## GitHub Pages
-
-The workflow in `.github/workflows/pages.yml` tests, builds, and deploys pushes to `main`. In repository **Settings → Pages**, the source must be **GitHub Actions**. An owner must select this source once before deployment. The workflow intentionally does not use `enablement: true`: its token has deployment permissions, but cannot create the Pages site. After enabling Pages, open Actions → Test and deploy GitHub Pages → Run workflow, selecting `main`.
-
-All paths are relative, including the worker and JSON resources, so deployment under `/umaharashi/` works. Hash navigation avoids server-side routing requirements.
-
 ## Local development
 
 Requires Node 22+; no npm dependencies are needed.
@@ -183,9 +177,3 @@ See [research review](docs/research-review.md) for sources, uncertainties and
 future integrations. Refresh the compact MDB/course exports with
 `python scripts/planning_data.py`; no personal API key or MDB upload is needed.
 
-## Renamed from Umaplan
-
-The site is now Umaharashi at https://haunteds-house.github.io/umaharashi/.
-The existing IndexedDB database, appearance keys and JSON format identifiers
-retain their original names so saved collections, preferences and old backups
-remain compatible on the same browser origin. Export filenames use Umaharashi.
